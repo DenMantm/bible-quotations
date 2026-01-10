@@ -24,11 +24,11 @@
                       "type":  "n8n-nodes-base.httpRequest",
                       "typeVersion":  4.3,
                       "position":  [
-                                       144,
+                                       260,
                                        0
                                    ],
                       "id":  "dad36350-e78c-4a9f-8531-844795f41f4e",
-                      "name":  "HTTP Request"
+                      "name":  "HTTP Request - Download Bible PDF"
                   },
                   {
                       "parameters":  {
@@ -40,11 +40,11 @@
                       "type":  "n8n-nodes-base.extractFromFile",
                       "typeVersion":  1.1,
                       "position":  [
-                                       352,
+                                       520,
                                        0
                                    ],
                       "id":  "d2c63f28-d282-449b-9eca-0226bbe42f10",
-                      "name":  "Extract from File"
+                      "name":  "Extract Bible Text from PDF"
                   },
                   {
                       "parameters":  {
@@ -55,11 +55,11 @@
                       "type":  "@n8n/n8n-nodes-langchain.chatTrigger",
                       "typeVersion":  1.4,
                       "position":  [
-                                       1120,
-                                       864
+                                       1140,
+                                       900
                                    ],
                       "id":  "c34eae61-5bd7-4b89-a3dc-c4312afbf479",
-                      "name":  "When chat message received",
+                      "name":  "📱 User Request (Telegram/Chat)",
                       "webhookId":  "80f50ece-5b3c-4aff-96c1-50885f311533"
                   },
                   {
@@ -73,11 +73,11 @@
                       "type":  "@n8n/n8n-nodes-langchain.agent",
                       "typeVersion":  3,
                       "position":  [
-                                       2016,
-                                       768
+                                       2440,
+                                       800
                                    ],
                       "id":  "f3f02f21-72a5-476a-a074-230707d855d1",
-                      "name":  "AI Agent"
+                      "name":  "✍️ Create Bible Quotation Post"
                   },
                   {
                       "parameters":  {
@@ -89,11 +89,11 @@
                       "type":  "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
                       "typeVersion":  1,
                       "position":  [
-                                       2016,
-                                       1024
+                                       2440,
+                                       1080
                                    ],
                       "id":  "76ce13ea-901c-41a9-9dde-4901cc6754b7",
-                      "name":  "Google Gemini Chat Model",
+                      "name":  "Gemini Model (Post Creator)",
                       "credentials":  {
                                           "googlePalmApi":  {
                                                                 "id":  "kxcftpSczlNkjgw6",
@@ -130,11 +130,11 @@
                                                      }
                                      },
                       "id":  "c7abd7de-6e91-4ec1-bdaa-c15d7a9ae5d9",
-                      "name":  "Fields - Set Values",
+                      "name":  "⚙️ Set Image Parameters",
                       "type":  "n8n-nodes-base.set",
                       "position":  [
-                                       1376,
-                                       768
+                                       1460,
+                                       800
                                    ],
                       "typeVersion":  3.4
                   },
@@ -143,11 +143,11 @@
                                          "jsCode":  "function cleanAndExtractJSON(response) {\n    try {\n        const result = {\n            image_prompt: []\n        };\n\n        const lines = response.split(\u0027\\n\u0027);\n        let currentPrompt = \u0027\u0027;\n\n        for (const line of lines) {\n            if (line.includes(\u0027\"prompt\":\u0027)) {\n                if (currentPrompt) {\n                    result.image_prompt.push(currentPrompt.trim());\n                }\n                currentPrompt = line.split(\u0027\"prompt\":\u0027)[1].trim();\n            }\n        }\n\n        if (currentPrompt) {\n            result.image_prompt.push(currentPrompt.trim());\n        }\n\n        return { json: result };\n        \n    } catch (error) {\n        return { \n            json: {\n                image_prompt: []\n            }\n        };\n    }\n}\n\nconst response = $input.first().json.output;\nreturn cleanAndExtractJSON(response);"
                                      },
                       "id":  "6a2d3954-d769-4943-9744-d373f442d937",
-                      "name":  "Code - Clean Json",
+                      "name":  "Parse Image Prompt JSON",
                       "type":  "n8n-nodes-base.code",
                       "position":  [
-                                       2944,
-                                       768
+                                       3180,
+                                       800
                                    ],
                       "executeOnce":  false,
                       "typeVersion":  2,
@@ -158,11 +158,11 @@
                                          "jsCode":  "return $input.first().json.image_prompt.map(prompt =\u003e ({\n  json: {\n    body: {\n      prompt: prompt,\n  \"image_size\": {\n    \"width\": $(\u0027Fields - Set Values\u0027).first().json.width,\n    \"height\": $(\u0027Fields - Set Values\u0027).first().json.height\n  },\n  \"num_inference_steps\": 12,\n  \"guidance_scale\": 3.5,\n  \"num_images\": 1,\n  \"enable_safety_checker\": true,\n}\n    }\n  }\n));"
                                      },
                       "id":  "55813be5-2afc-4668-bd69-30abd1997965",
-                      "name":  "Code - Get Prompt",
+                      "name":  "Build Image API Request",
                       "type":  "n8n-nodes-base.code",
                       "position":  [
-                                       3120,
-                                       768
+                                       3420,
+                                       800
                                    ],
                       "typeVersion":  2,
                       "alwaysOutputData":  true
@@ -191,11 +191,11 @@
                                                      }
                                      },
                       "id":  "294bf7fb-fd6f-4a39-b2a5-5eb14089bdcd",
-                      "name":  "HTTP Request - Create Image",
+                      "name":  "🖼️ Generate Biblical Image",
                       "type":  "n8n-nodes-base.httpRequest",
                       "position":  [
-                                       3568,
-                                       768
+                                       3900,
+                                       800
                                    ],
                       "retryOnFail":  true,
                       "typeVersion":  4.2,
@@ -207,11 +207,11 @@
                                          "jsCode":  "for (let i = 0; i \u003c items.length; i++) {\n  items[i].json.fileName = `images_${(i + 1).toString().padStart(3, \u00270\u0027)}.png`;\n}\nreturn items;"
                                      },
                       "id":  "0206a06c-a803-47d2-9179-d749a4cad1b4",
-                      "name":  "Code - Set Filename",
+                      "name":  "Set Image Filename",
                       "type":  "n8n-nodes-base.code",
                       "position":  [
-                                       3280,
-                                       768
+                                       3660,
+                                       800
                                    ],
                       "typeVersion":  2
                   },
@@ -226,11 +226,11 @@
                                          "hasOutputParser":  true
                                      },
                       "id":  "dc7049b6-98c0-463b-84da-1859bb0c39e5",
-                      "name":  "AI Agent - Create Image From Prompt",
+                      "name":  "🎨 Generate Image Prompt",
                       "type":  "@n8n/n8n-nodes-langchain.agent",
                       "position":  [
-                                       2512,
-                                       768
+                                       2860,
+                                       800
                                    ],
                       "typeVersion":  1.7
                   },
@@ -245,11 +245,11 @@
                                                               }
                                      },
                       "id":  "a2352b18-a9ba-4c2e-99e8-cd55697b5c6f",
-                      "name":  "Telegram Response",
+                      "name":  "📤 Send Image to User",
                       "type":  "n8n-nodes-base.telegram",
                       "position":  [
-                                       3792,
-                                       672
+                                       4140,
+                                       720
                                    ],
                       "webhookId":  "ca4806ac-202c-4709-92f9-6484397c17c4",
                       "typeVersion":  1.2,
@@ -291,11 +291,11 @@
                                                      }
                                      },
                       "id":  "b4d34b55-38f2-470e-8ba8-719d94712af1",
-                      "name":  "Google Gemini Chat Model1",
+                      "name":  "Gemini Model (Image Prompt)",
                       "type":  "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
                       "position":  [
-                                       2512,
-                                       976
+                                       2860,
+                                       1080
                                    ],
                       "typeVersion":  1,
                       "credentials":  {
@@ -310,11 +310,11 @@
                                          "jsCode":  "const now = new Date();\nconst irishTime = new Date(now.toLocaleString(\u0027en-US\u0027, { timeZone: \u0027Europe/Dublin\u0027 }));\n\nreturn [{\n  json: {\n    date: irishTime.toISOString().split(\u0027T\u0027)[0],\n    dayOfWeek: irishTime.toLocaleDateString(\u0027en-IE\u0027, { weekday: \u0027long\u0027 }),\n    dayOfMonth: irishTime.getDate(),\n    month: irishTime.getMonth() + 1,\n    monthName: irishTime.toLocaleDateString(\u0027en-IE\u0027, { month: \u0027long\u0027 }),\n    year: irishTime.getFullYear(),\n    formattedDate: irishTime.toLocaleDateString(\u0027en-IE\u0027, { \n      weekday: \u0027long\u0027, \n      year: \u0027numeric\u0027, \n      month: \u0027long\u0027, \n      day: \u0027numeric\u0027 \n    })\n  }\n}];"
                                      },
                       "id":  "e1a2b3c4-d5e6-f7g8-h9i0-j1k2l3m4n5o6",
-                      "name":  "Get Current Date",
+                      "name":  "📅 Get Irish Date/Time",
                       "type":  "n8n-nodes-base.code",
                       "position":  [
-                                       1408,
-                                       768
+                                       1460,
+                                       620
                                    ],
                       "typeVersion":  2
                   },
@@ -331,11 +331,11 @@
                       "type":  "@n8n/n8n-nodes-langchain.agent",
                       "typeVersion":  3,
                       "position":  [
-                                       1632,
-                                       768
+                                       1760,
+                                       620
                                    ],
                       "id":  "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6",
-                      "name":  "AI Agent - Irish Calendar Lookup"
+                      "name":  "🗓️ Irish Calendar Context"
                   },
                   {
                       "parameters":  {
@@ -348,11 +348,11 @@
                       "type":  "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
                       "typeVersion":  1,
                       "position":  [
-                                       1632,
-                                       992
+                                       1760,
+                                       880
                                    ],
                       "id":  "b2c3d4e5-f6g7-h8i9-j0k1-l2m3n4o5p6q7",
-                      "name":  "Google Gemini Chat Model - Calendar",
+                      "name":  "Gemini Model (Calendar)",
                       "credentials":  {
                                           "googlePalmApi":  {
                                                                 "id":  "kxcftpSczlNkjgw6",
@@ -371,11 +371,11 @@
                       "type":  "@n8n/n8n-nodes-langchain.agent",
                       "typeVersion":  3,
                       "position":  [
-                                       1856,
-                                       768
+                                       2080,
+                                       620
                                    ],
                       "id":  "3aa636ca-0597-460a-85e9-66e407137816",
-                      "name":  "AI Agent1"
+                      "name":  "🎯 Select Spiritual Theme"
                   },
                   {
                       "parameters":  {
@@ -387,11 +387,11 @@
                       "type":  "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
                       "typeVersion":  1,
                       "position":  [
-                                       1856,
-                                       992
+                                       2080,
+                                       880
                                    ],
                       "id":  "a522b434-0fa7-4396-83c9-0bb3bfae8c4e",
-                      "name":  "Google Gemini Chat Model2",
+                      "name":  "Gemini Model (Theme Selector)",
                       "credentials":  {
                                           "googlePalmApi":  {
                                                                 "id":  "kxcftpSczlNkjgw6",
@@ -414,11 +414,11 @@
                       "type":  "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
                       "typeVersion":  1.3,
                       "position":  [
-                                       688,
+                                       780,
                                        0
                                    ],
                       "id":  "de4e9ace-2cee-4b4d-9b27-89cd28e3fbb4",
-                      "name":  "Qdrant Vector Store",
+                      "name":  "💾 Store Bible in Vector DB",
                       "credentials":  {
                                           "qdrantApi":  {
                                                             "id":  "D9IhncbU5UKpL0h6",
@@ -476,11 +476,11 @@
                       "type":  "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
                       "typeVersion":  1.3,
                       "position":  [
-                                       2160,
-                                       1024
+                                       2440,
+                                       1300
                                    ],
                       "id":  "2a5f4987-b027-493f-8697-20d7c87ab143",
-                      "name":  "Qdrant Vector Store1",
+                      "name":  "📖 Search Bible Verses",
                       "credentials":  {
                                           "qdrantApi":  {
                                                             "id":  "D9IhncbU5UKpL0h6",
@@ -495,11 +495,11 @@
                       "type":  "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
                       "typeVersion":  1,
                       "position":  [
-                                       2160,
-                                       1168
+                                       2440,
+                                       1480
                                    ],
                       "id":  "0342bdbe-f162-46c8-bda2-ab7e791c03d9",
-                      "name":  "Embeddings Google Gemini",
+                      "name":  "Embeddings (Retrieval)",
                       "credentials":  {
                                           "googlePalmApi":  {
                                                                 "id":  "kxcftpSczlNkjgw6",
@@ -516,11 +516,11 @@
                                                               }
                                      },
                       "id":  "f52ecc4b-4c15-49f1-ba8a-d0b7e7b60720",
-                      "name":  "Telegram Response1",
+                      "name":  "📤 Send Text Post to User",
                       "type":  "n8n-nodes-base.telegram",
                       "position":  [
-                                       2528,
-                                       1232
+                                       2760,
+                                       1000
                                    ],
                       "webhookId":  "ca4806ac-202c-4709-92f9-6484397c17c4",
                       "typeVersion":  1.2,
@@ -541,11 +541,11 @@
                                                               }
                                      },
                       "id":  "71b64b8d-0ae4-4660-bc00-66651fa7960b",
-                      "name":  "Telegram Trigger",
+                      "name":  "📱 Telegram User Input",
                       "type":  "n8n-nodes-base.telegramTrigger",
                       "position":  [
-                                       1136,
-                                       640
+                                       1140,
+                                       700
                                    ],
                       "webhookId":  "ff17baeb-3182-41c4-b60a-e6159b02023b",
                       "typeVersion":  1.2,
@@ -583,181 +583,181 @@
                                                           ]
                                                       ]
                                          },
-                        "Extract from File":  {
+                        "Extract Bible Text from PDF":  {
                                                   "main":  [
                                                                [
                                                                    {
-                                                                       "node":  "Qdrant Vector Store",
+                                                                       "node":  "💾 Store Bible in Vector DB",
                                                                        "type":  "main",
                                                                        "index":  0
                                                                    }
                                                                ]
                                                            ]
                                               },
-                        "When chat message received":  {
+                        "📱 User Request (Telegram/Chat)":  {
                                                            "main":  [
                                                                         [
                                                                             {
-                                                                                "node":  "Fields - Set Values",
+                                                                                "node":  "⚙️ Set Image Parameters",
                                                                                 "type":  "main",
                                                                                 "index":  0
                                                                             }
                                                                         ]
                                                                     ]
                                                        },
-                        "Google Gemini Chat Model":  {
+                        "Gemini Model (Post Creator)":  {
                                                          "ai_languageModel":  [
                                                                                   [
                                                                                       {
-                                                                                          "node":  "AI Agent",
+                                                                                          "node":  "✍️ Create Bible Quotation Post",
                                                                                           "type":  "ai_languageModel",
                                                                                           "index":  0
                                                                                       }
                                                                                   ]
                                                                               ]
                                                      },
-                        "Fields - Set Values":  {
+                        "⚙️ Set Image Parameters":  {
                                                     "main":  [
                                                                  [
                                                                      {
-                                                                         "node":  "Get Current Date",
+                                                                         "node":  "📅 Get Irish Date/Time",
                                                                          "type":  "main",
                                                                          "index":  0
                                                                      }
                                                                  ]
                                                              ]
                                                 },
-                        "Get Current Date":  {
+                        "📅 Get Irish Date/Time":  {
                                                  "main":  [
                                                               [
                                                                   {
-                                                                      "node":  "AI Agent - Irish Calendar Lookup",
+                                                                      "node":  "🗓️ Irish Calendar Context",
                                                                       "type":  "main",
                                                                       "index":  0
                                                                   }
                                                               ]
                                                           ]
                                              },
-                        "AI Agent - Irish Calendar Lookup":  {
+                        "🗓️ Irish Calendar Context":  {
                                                                  "main":  [
                                                                               [
                                                                                   {
-                                                                                      "node":  "AI Agent1",
+                                                                                      "node":  "🎯 Select Spiritual Theme",
                                                                                       "type":  "main",
                                                                                       "index":  0
                                                                                   }
                                                                               ]
                                                                           ]
                                                              },
-                        "Google Gemini Chat Model - Calendar":  {
+                        "Gemini Model (Calendar)":  {
                                                                     "ai_languageModel":  [
                                                                                              [
                                                                                                  {
-                                                                                                     "node":  "AI Agent - Irish Calendar Lookup",
+                                                                                                     "node":  "🗓️ Irish Calendar Context",
                                                                                                      "type":  "ai_languageModel",
                                                                                                      "index":  0
                                                                                                  }
                                                                                              ]
                                                                                          ]
                                                                 },
-                        "Code - Clean Json":  {
+                        "Parse Image Prompt JSON":  {
                                                   "main":  [
                                                                [
                                                                    {
-                                                                       "node":  "Code - Get Prompt",
+                                                                       "node":  "Build Image API Request",
                                                                        "type":  "main",
                                                                        "index":  0
                                                                    }
                                                                ]
                                                            ]
                                               },
-                        "Code - Get Prompt":  {
+                        "Build Image API Request":  {
                                                   "main":  [
                                                                [
                                                                    {
-                                                                       "node":  "Code - Set Filename",
+                                                                       "node":  "Set Image Filename",
                                                                        "type":  "main",
                                                                        "index":  0
                                                                    }
                                                                ]
                                                            ]
                                               },
-                        "HTTP Request - Create Image":  {
+                        "🖼️ Generate Biblical Image":  {
                                                             "main":  [
                                                                          [
                                                                              {
-                                                                                 "node":  "Telegram Response",
+                                                                                 "node":  "📤 Send Image to User",
                                                                                  "type":  "main",
                                                                                  "index":  0
                                                                              }
                                                                          ]
                                                                      ]
                                                         },
-                        "Code - Set Filename":  {
+                        "Set Image Filename":  {
                                                     "main":  [
                                                                  [
                                                                      {
-                                                                         "node":  "HTTP Request - Create Image",
+                                                                         "node":  "🖼️ Generate Biblical Image",
                                                                          "type":  "main",
                                                                          "index":  0
                                                                      }
                                                                  ]
                                                              ]
                                                 },
-                        "AI Agent - Create Image From Prompt":  {
+                        "🎨 Generate Image Prompt":  {
                                                                     "main":  [
                                                                                  [
                                                                                      {
-                                                                                         "node":  "Code - Clean Json",
+                                                                                         "node":  "Parse Image Prompt JSON",
                                                                                          "type":  "main",
                                                                                          "index":  0
                                                                                      }
                                                                                  ]
                                                                              ]
                                                                 },
-                        "Google Gemini Chat Model1":  {
+                        "Gemini Model (Image Prompt)":  {
                                                           "ai_languageModel":  [
                                                                                    [
                                                                                        {
-                                                                                           "node":  "AI Agent - Create Image From Prompt",
+                                                                                           "node":  "🎨 Generate Image Prompt",
                                                                                            "type":  "ai_languageModel",
                                                                                            "index":  0
                                                                                        }
                                                                                    ]
                                                                                ]
                                                       },
-                        "AI Agent":  {
+                        "✍️ Create Bible Quotation Post":  {
                                          "main":  [
                                                       [
                                                           {
-                                                              "node":  "AI Agent - Create Image From Prompt",
+                                                              "node":  "🎨 Generate Image Prompt",
                                                               "type":  "main",
                                                               "index":  0
                                                           },
                                                           {
-                                                              "node":  "Telegram Response1",
+                                                              "node":  "📤 Send Text Post to User",
                                                               "type":  "main",
                                                               "index":  0
                                                           }
                                                       ]
                                                   ]
                                      },
-                        "AI Agent1":  {
+                        "🎯 Select Spiritual Theme":  {
                                           "main":  [
                                                        [
                                                            {
-                                                               "node":  "AI Agent",
+                                                               "node":  "✍️ Create Bible Quotation Post",
                                                                "type":  "main",
                                                                "index":  0
                                                            }
                                                        ]
                                                    ]
                                       },
-                        "Google Gemini Chat Model2":  {
+                        "Gemini Model (Theme Selector)":  {
                                                           "ai_languageModel":  [
                                                                                    [
                                                                                        {
-                                                                                           "node":  "AI Agent1",
+                                                                                           "node":  "🎯 Select Spiritual Theme",
                                                                                            "type":  "ai_languageModel",
                                                                                            "index":  0
                                                                                        }
@@ -768,7 +768,7 @@
                                                           "ai_embedding":  [
                                                                                [
                                                                                    {
-                                                                                       "node":  "Qdrant Vector Store",
+                                                                                       "node":  "💾 Store Bible in Vector DB",
                                                                                        "type":  "ai_embedding",
                                                                                        "index":  0
                                                                                    }
@@ -779,45 +779,45 @@
                                                      "ai_document":  [
                                                                          [
                                                                              {
-                                                                                 "node":  "Qdrant Vector Store",
+                                                                                 "node":  "💾 Store Bible in Vector DB",
                                                                                  "type":  "ai_document",
                                                                                  "index":  0
                                                                              }
                                                                          ]
                                                                      ]
                                                  },
-                        "Qdrant Vector Store1":  {
+                        "📖 Search Bible Verses":  {
                                                      "ai_tool":  [
                                                                      [
                                                                          {
-                                                                             "node":  "AI Agent",
+                                                                             "node":  "✍️ Create Bible Quotation Post",
                                                                              "type":  "ai_tool",
                                                                              "index":  0
                                                                          }
                                                                      ]
                                                                  ]
                                                  },
-                        "Embeddings Google Gemini":  {
+                        "Embeddings (Retrieval)":  {
                                                          "ai_embedding":  [
                                                                               [
                                                                                   {
-                                                                                      "node":  "Qdrant Vector Store1",
+                                                                                      "node":  "📖 Search Bible Verses",
                                                                                       "type":  "ai_embedding",
                                                                                       "index":  0
                                                                                   }
                                                                               ]
                                                                           ]
                                                      },
-                        "Telegram Trigger":  {
+                        "📱 Telegram User Input":  {
                                                  "main":  [
                                                               [
                                                                   {
-                                                                      "node":  "Fields - Set Values",
+                                                                      "node":  "⚙️ Set Image Parameters",
                                                                       "type":  "main",
                                                                       "index":  0
                                                                   },
                                                                   {
-                                                                      "node":  "Get Current Date",
+                                                                      "node":  "📅 Get Irish Date/Time",
                                                                       "type":  "main",
                                                                       "index":  0
                                                                   }
