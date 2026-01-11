@@ -1,842 +1,1149 @@
-﻿{
-    "name":  "Bible Quotations",
-    "nodes":  [
-                  {
-                      "parameters":  {
-
-                                     },
-                      "type":  "n8n-nodes-base.manualTrigger",
-                      "typeVersion":  1,
-                      "position":  [
-                                       0,
-                                       0
-                                   ],
-                      "id":  "b3f5bab0-fb46-49b3-a639-a60a70b99b67",
-                      "name":  "When clicking ‘Execute workflow’"
-                  },
-                  {
-                      "parameters":  {
-                                         "url":  "https://csbible.com/wp-content/uploads/2018/03/CSB_Pew_Bible_2nd_Printing.pdf",
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "type":  "n8n-nodes-base.httpRequest",
-                      "typeVersion":  4.3,
-                      "position":  [
-                                       260,
-                                       0
-                                   ],
-                      "id":  "dad36350-e78c-4a9f-8531-844795f41f4e",
-                      "name":  "HTTP Request - Download Bible PDF"
-                  },
-                  {
-                      "parameters":  {
-                                         "operation":  "pdf",
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "type":  "n8n-nodes-base.extractFromFile",
-                      "typeVersion":  1.1,
-                      "position":  [
-                                       520,
-                                       0
-                                   ],
-                      "id":  "d2c63f28-d282-449b-9eca-0226bbe42f10",
-                      "name":  "Extract Bible Text from PDF"
-                  },
-                  {
-                      "parameters":  {
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "type":  "@n8n/n8n-nodes-langchain.chatTrigger",
-                      "typeVersion":  1.4,
-                      "position":  [
-                                       1140,
-                                       900
-                                   ],
-                      "id":  "c34eae61-5bd7-4b89-a3dc-c4312afbf479",
-                      "name":  "📱 User Request (Telegram/Chat)",
-                      "webhookId":  "80f50ece-5b3c-4aff-96c1-50885f311533"
-                  },
-                  {
-                      "parameters":  {
-                                         "promptType":  "define",
-                                         "text":  "={{ 'Today\\'s Context: ' + $('AI Agent - Irish Calendar Lookup').item.json.output + '\\n\\nSpiritual Theme: ' + $('AI Agent1').item.json.output + '\\n\\nPlease create a Facebook post based on this theme and context.' }}",
-                                         "options":  {
-                                                         "systemMessage":  "**Role**: Biblical Content Creator for Christian Social Media\n**System Message**:\n\u003e \"You are a biblically-grounded content creator serving a Christian community in Ireland. Your purpose is to illuminate Scripture's timeless truth and draw hearts closer to God through thoughtful, engaging social media posts.\n\u003e\n\u003e **Core Principles:**\n\u003e - **Scripture is Central**: Let God's Word speak; your reflection serves to illuminate, not overshadow\n\u003e - **Theological Accuracy**: Ensure biblical interpretation is sound and faithful to orthodox Christian teaching\n\u003e - **Gospel-Centered**: Point ultimately to Christ's redemptive work and God's love\n\u003e - **Cultural Sensitivity**: Honor Irish Catholic and Protestant traditions while maintaining biblical unity\n\u003e\n\u003e **Content Guidelines:**\n\u003e 1. **Scripture Selection**: Choose the verse that most powerfully speaks to the theme, considering context and theological depth\n\u003e 2. **Biblical Reflection** (2-3 sentences):\n\u003e    - Connect the theme to the verse with theological insight\n\u003e    - Ground reflections in the broader biblical narrative\n\u003e    - Show how this truth applies to daily Christian living\n\u003e    - Avoid shallow positivity; embrace the full depth of Scripture (comfort AND challenge)\n\u003e 3. **Quote the Complete Verse**: Present Scripture reverently and accurately\n\u003e 4. **Precise Citation**: Include book, chapter:verse reference (e.g., John 3:16)\n\u003e 5. **Reverent Tone**: Warm and accessible, yet maintaining the holiness of God's Word\n\u003e 6. **Thoughtful Emojis**: Use sparingly and appropriately (\u271d\ufe0f \ud83d\ude4f \u2764\ufe0f \ud83d\udd4a\ufe0f) - avoid trivializing sacred content\n\u003e 7. **Authentic Faith**: Be genuine, not preachy; inspire through truth, not manipulation\n\u003e 8. **Invitation to Reflection**: End with a thoughtful question that encourages biblical meditation and community sharing\n\u003e\n\u003e **Irish Christian Context:**\n\u003e - Acknowledge both Catholic and Protestant traditions where appropriate\n\u003e - Reference Irish saints or local celebrations when relevant\n\u003e - Use inclusive language that builds unity in Christ\n\u003e\n\u003e **Example Structure:**\n\u003e [Opening line connecting theme to lived experience]\n\u003e [Biblical insight showing Scripture's relevance]\n\u003e [Application to daily faith]\n\u003e\n\u003e [Full Scripture quotation]\n\u003e \u2014 [Book Chapter:Verse]\n\u003e\n\u003e [Thoughtful question for reflection] \ud83d\ude4f\""
-                                                     }
-                                     },
-                      "type":  "@n8n/n8n-nodes-langchain.agent",
-                      "typeVersion":  3,
-                      "position":  [
-                                       2440,
-                                       800
-                                   ],
-                      "id":  "f3f02f21-72a5-476a-a074-230707d855d1",
-                      "name":  "✍️ Create Bible Quotation Post"
-                  },
-                  {
-                      "parameters":  {
-                                         "modelName":  "models/gemini-robotics-er-1.5-preview",
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "type":  "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-                      "typeVersion":  1,
-                      "position":  [
-                                       2440,
-                                       1080
-                                   ],
-                      "id":  "76ce13ea-901c-41a9-9dde-4901cc6754b7",
-                      "name":  "Gemini Model (Post Creator)",
-                      "credentials":  {
-                                          "googlePalmApi":  {
-                                                                "id":  "kxcftpSczlNkjgw6",
-                                                                "name":  "Google Gemini(PaLM) Api account"
-                                                            }
-                                      }
-                  },
-                  {
-                      "parameters":  {
-                                         "assignments":  {
-                                                             "assignments":  [
-                                                                                 {
-                                                                                     "id":  "4e04fec4-441e-45f7-acea-0017a4b5c104",
-                                                                                     "name":  "model",
-                                                                                     "type":  "string",
-                                                                                     "value":  "flux"
-                                                                                 },
-                                                                                 {
-                                                                                     "id":  "aa80cd68-1c82-4032-b1d7-e098856eec38",
-                                                                                     "name":  "width",
-                                                                                     "type":  "string",
-                                                                                     "value":  "1080"
-                                                                                 },
-                                                                                 {
-                                                                                     "id":  "da6d305f-aece-49bd-ae02-52df59915c60",
-                                                                                     "name":  "height",
-                                                                                     "type":  "string",
-                                                                                     "value":  "1920"
-                                                                                 }
-                                                                             ]
-                                                         },
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "id":  "c7abd7de-6e91-4ec1-bdaa-c15d7a9ae5d9",
-                      "name":  "⚙️ Set Image Parameters",
-                      "type":  "n8n-nodes-base.set",
-                      "position":  [
-                                       1460,
-                                       800
-                                   ],
-                      "typeVersion":  3.4
-                  },
-                  {
-                      "parameters":  {
-                                         "jsCode":  "function cleanAndExtractJSON(response) {\n    try {\n        const result = {\n            image_prompt: []\n        };\n\n        const lines = response.split(\u0027\\n\u0027);\n        let currentPrompt = \u0027\u0027;\n\n        for (const line of lines) {\n            if (line.includes(\u0027\"prompt\":\u0027)) {\n                if (currentPrompt) {\n                    result.image_prompt.push(currentPrompt.trim());\n                }\n                currentPrompt = line.split(\u0027\"prompt\":\u0027)[1].trim();\n            }\n        }\n\n        if (currentPrompt) {\n            result.image_prompt.push(currentPrompt.trim());\n        }\n\n        return { json: result };\n        \n    } catch (error) {\n        return { \n            json: {\n                image_prompt: []\n            }\n        };\n    }\n}\n\nconst response = $input.first().json.output;\nreturn cleanAndExtractJSON(response);"
-                                     },
-                      "id":  "6a2d3954-d769-4943-9744-d373f442d937",
-                      "name":  "Parse Image Prompt JSON",
-                      "type":  "n8n-nodes-base.code",
-                      "position":  [
-                                       3180,
-                                       800
-                                   ],
-                      "executeOnce":  false,
-                      "typeVersion":  2,
-                      "alwaysOutputData":  true
-                  },
-                  {
-                      "parameters":  {
-                                         "jsCode":  "return $input.first().json.image_prompt.map(prompt =\u003e ({\n  json: {\n    body: {\n      prompt: prompt,\n  \"image_size\": {\n    \"width\": $(\u0027Fields - Set Values\u0027).first().json.width,\n    \"height\": $(\u0027Fields - Set Values\u0027).first().json.height\n  },\n  \"num_inference_steps\": 12,\n  \"guidance_scale\": 3.5,\n  \"num_images\": 1,\n  \"enable_safety_checker\": true,\n}\n    }\n  }\n));"
-                                     },
-                      "id":  "55813be5-2afc-4668-bd69-30abd1997965",
-                      "name":  "Build Image API Request",
-                      "type":  "n8n-nodes-base.code",
-                      "position":  [
-                                       3420,
-                                       800
-                                   ],
-                      "typeVersion":  2,
-                      "alwaysOutputData":  true
-                  },
-                  {
-                      "parameters":  {
-                                         "url":  "=https://image.pollinations.ai/prompt/ {{ $(\u0027Code - Get Prompt\u0027).item.json.body.prompt }}",
-                                         "sendQuery":  true,
-                                         "specifyQuery":  "json",
-                                         "jsonQuery":  "={\n  \"width\": {{ $(\u0027Fields - Set Values\u0027).item.json.width }},\n  \"height\": {{ $(\u0027Fields - Set Values\u0027).item.json.height }},\n  \"model\": \"{{ $(\u0027Fields - Set Values\u0027).item.json.model }}\",\n  \"seed\": 42,\n  \"nologo\": true\n}",
-                                         "sendHeaders":  true,
-                                         "headerParameters":  {
-                                                                  "parameters":  [
-                                                                                     {
-                                                                                         "name":  "Content-Type",
-                                                                                         "value":  "application/json"
-                                                                                     },
-                                                                                     {
-                                                                                         "name":  "Accept",
-                                                                                         "value":  "application/json"
-                                                                                     }
-                                                                                 ]
-                                                              },
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "id":  "294bf7fb-fd6f-4a39-b2a5-5eb14089bdcd",
-                      "name":  "🖼️ Generate Biblical Image",
-                      "type":  "n8n-nodes-base.httpRequest",
-                      "position":  [
-                                       3900,
-                                       800
-                                   ],
-                      "retryOnFail":  true,
-                      "typeVersion":  4.2,
-                      "alwaysOutputData":  true,
-                      "waitBetweenTries":  5000
-                  },
-                  {
-                      "parameters":  {
-                                         "jsCode":  "for (let i = 0; i \u003c items.length; i++) {\n  items[i].json.fileName = `images_${(i + 1).toString().padStart(3, \u00270\u0027)}.png`;\n}\nreturn items;"
-                                     },
-                      "id":  "0206a06c-a803-47d2-9179-d749a4cad1b4",
-                      "name":  "Set Image Filename",
-                      "type":  "n8n-nodes-base.code",
-                      "position":  [
-                                       3660,
-                                       800
-                                   ],
-                      "typeVersion":  2
-                  },
-                  {
-                      "parameters":  {
-                                         "promptType":  "define",
-                                         "text":  "={{ \u0027Spiritual Theme: \u0027 + $(\u0027AI Agent1\u0027).item.json.output + \u0027\\n\\nBible Content and Quotation:\\n\u0027 + $(\u0027AI Agent\u0027).item.json.output + \u0027\\n\\nPlease create a biblical image prompt based on this theme and quotation.\u0027 }}",
-                                         "hasOutputParser":  true,
-                                         "options":  {
-                                                         "systemMessage":  "=**Role**: Biblical Image Prompt Creation Expert\n\n**System Message**:\n\u003e \"You are an expert at creating powerful, spiritually evocative image prompts for Biblical and Christian content. Your goal is to generate prompts that produce beautiful, inspirational biblical imagery with a SINGLE WORD overlay that captures the spiritual theme.\n\u003e\n\u003e **Objective**:\n\u003e - Create deeply spiritual, biblical imagery that reflects Christian faith and tradition\n\u003e - Focus on scenes from Scripture, nature reflecting God\u0027s creation, or symbolic Christian imagery\n\u003e - Integrate ONE WORD ONLY as text overlay (e.g., \u0027HOPE\u0027, \u0027FAITH\u0027, \u0027PEACE\u0027, \u0027LOVE\u0027, \u0027JOY\u0027)\n\u003e - Maintain reverence, beauty, and spiritual depth\n\u003e - Ensure images are suitable for Christian social media sharing\n\u003e\n\u003e **Standard Prompt Structure**:\n\u003e [Biblical Scene/Setting ::9] | [Sacred Elements ::8] | [Single Word Text ::8] | [Divine Lighting ::8] | [Technical Parameters] | [Spiritual Atmosphere]\n\u003e\n\u003e **Component Guidelines**:\n\u003e\n\u003e **1. Biblical Scene/Setting (Weight ::9)**\n\u003e Choose from these categories:\n\u003e - **Nature \u0026 Creation**: \u0027majestic mountain sunrise, God\u0027s creation in glory\u0027, \u0027peaceful ocean at golden hour, divine serenity\u0027, \u0027ancient olive grove at sunset, biblical landscape\u0027\n\u003e - **Biblical Imagery**: \u0027open Bible with golden light emanating, sacred text illuminated\u0027, \u0027shepherd with flock on hillside, pastoral biblical scene\u0027, \u0027ancient Jerusalem temple ruins at dawn\u0027\n\u003e - **Symbolic Elements**: \u0027wooden cross on hilltop silhouette against sunset\u0027, \u0027dove descending in rays of light, Holy Spirit imagery\u0027, \u0027lamp on stand radiating warm light, biblical symbolism\u0027\n\u003e - **Celtic/Irish Christian**: \u0027Celtic cross standing in Irish countryside\u0027, \u0027ancient stone church ruins with Celtic patterns\u0027, \u0027illuminated manuscript style Celtic knotwork with Christian symbols\u0027\n\u003e\n\u003e **2. Sacred Visual Elements (Weight ::8)**\n\u003e Include spiritual details:\n\u003e - Biblical symbols: cross, dove, olive branch, lamb, fish, crown of thorns, empty tomb\n\u003e - Sacred light: divine rays, heavenly glow, golden hour illumination, ethereal light beams\n\u003e - Nature elements: mountains, water, sky, trees, flowers, wheat fields\n\u003e - Ancient elements: scrolls, oil lamps, stone tablets, ancient paths\n\u003e - Irish elements (when appropriate): Celtic crosses, shamrocks, Book of Kells style patterns\n\u003e\n\u003e **3. Single Word Text Integration (Weight ::8)**\n\u003e **CRITICAL**: Use ONLY ONE WORD\n\u003e - Theme words: HOPE | FAITH | LOVE | PEACE | JOY | GRACE | STRENGTH | TRUST | LIGHT | MERCY | WISDOM | COURAGE | REDEMPTION | SALVATION | FORGIVENESS\n\u003e - Typography: \u0027elegant serif font, golden lettering, subtly embossed\u0027, \u0027clean bold typography integrated into sky/space\u0027, \u0027hand-lettered calligraphic style\u0027\n\u003e - Placement: \u0027text overlaid in upper third, naturally integrated\u0027, \u0027word appearing in heavenly light\u0027, \u0027centered in composition with depth\u0027\n\u003e - Style: \u0027luminous text with soft glow\u0027, \u0027carved into stone appearance\u0027, \u0027written in clouds or light beams\u0027\n\u003e\n\u003e **4. Divine Lighting \u0026 Atmosphere (Weight ::8)**\n\u003e - Heavenly lighting: \u0027divine sunbeams breaking through clouds ::8\u0027, \u0027golden hour warm celestial glow\u0027, \u0027ethereal morning mist with sacred light\u0027\n\u003e - Spiritual atmosphere: \u0027peaceful, reverent, contemplative mood\u0027, \u0027sense of divine presence\u0027, \u0027hopeful, uplifting emotional tone\u0027\n\u003e - Color palette: \u0027warm golds and soft whites\u0027, \u0027deep blues and purples for majesty\u0027, \u0027earth tones for groundedness\u0027, \u0027soft pastels for peace\u0027\n\u003e\n\u003e **5. Technical Parameters**:\n\u003e parameters | 8k resolution, hyperrealistic, photorealistic quality, divine lighting, cinematic composition --ar 9:16\n\u003e settings | sharp focus, high detail, professional photography, spiritual atmosphere --s 750 --q 2\n\u003e\n\u003e **Complete Biblical Examples**:\n\u003e\n\u003e **Example 1: Hope Theme**\n\u003e \u0027majestic sunrise breaking over calm sea, biblical seascape with divine radiance ::9 | wooden cross silhouette on distant shore, dove in flight, golden light rays piercing clouds ::8 | single word HOPE in elegant serif font integrated into sky, luminous golden lettering ::8 | heavenly morning light, warm ethereal glow, peaceful sacred atmosphere ::8 | 8k resolution, photorealistic quality, spiritual composition --ar 9:16 --s 750 --q 2\u0027\n\u003e\n\u003e **Example 2: Faith Theme**\n\u003e \u0027ancient stone path winding up mountain towards light, biblical journey scene ::9 | shepherd staff leaning against rock, open Bible with pages glowing, olive branches ::8 | word FAITH in bold calligraphic script appearing in clouds, soft golden glow ::8 | dramatic sunset lighting, divine rays breaking through storm clouds, inspiring atmosphere ::8 | 8k resolution, hyperrealistic, cinematic divine lighting --ar 9:16 --s 750 --q 2\u0027\n\u003e\n\u003e **Example 3: Peace Theme (Irish)**\n\u003e \u0027ancient Celtic cross in Irish green countryside, stone monument at golden hour ::9 | wildflowers, rolling hills, distant monastery ruins, shamrock details in foreground ::8 | single word PEACE carved into stone texture, traditional Celtic font style ::8 | soft evening light, misty atmosphere, serene Irish landscape mood ::8 | 8k resolution, photorealistic, pastoral beauty --ar 9:16 --s 750 --q 2\u0027\n\u003e\n\u003e **Example 4: Love Theme**\n\u003e \u0027hands holding open glowing Bible, warm intimate lighting, sacred text visible ::9 | soft candlelight, wooden table, cross pendant, fresh flowers nearby ::8 | word LOVE in elegant script overlaid on light emanating from pages ::8 | warm golden candlelight, intimate reverent atmosphere, gentle shadows ::8 | 8k resolution, photorealistic, spiritual devotional scene --ar 9:16 --s 750 --q 2\u0027\n\u003e\n\u003e **Important Rules**:\n\u003e 1. **TEXT - MOST CRITICAL RULE**: Use EXACTLY ONE WORD ONLY - NEVER EVER use phrases, multiple words, or sentences. If you catch yourself using more than one word, STOP and select a single word instead.\n\u003e 2. **BIBLICAL FOCUS**: All imagery must be reverent, spiritual, and appropriate for Christian content\n\u003e 3. **NO HUMAN FACES**: Avoid detailed human faces (use silhouettes, back views, or hands only)\n\u003e 4. **ASPECT RATIO**: Always use --ar 9:16 (vertical format for social media)\n\u003e 5. **AUTHENTICITY**: Ensure biblical accuracy and cultural sensitivity\n\u003e 6. **IRISH CONTEXT**: When appropriate, incorporate Celtic Christian elements for Irish audience\n\u003e 7. **WORD SELECTION**: Choose ONE single word based on the theme/Bible verse provided in the content\n\u003e\n\u003e **ABSOLUTELY FORBIDDEN - These Will Fail**:\n\u003e - ❌ Multiple words: \\\"God\u0027s Love\\\", \\\"New Life\\\", \\\"Be Strong\\\", \\\"Faith and Hope\\\"\n\u003e - ❌ Phrases with spaces: \\\"Trust God\\\", \\\"Love Wins\\\", \\\"Christ Risen\\\"\n\u003e - ❌ Hyphenated phrases: \\\"All-Loving\\\", \\\"Ever-Present\\\"\n\u003e - ❌ Any text containing more than one word\n\u003e - ✅ CORRECT: HOPE, FAITH, LOVE, PEACE, JOY, GRACE, TRUST, LIGHT, MERCY\n\u003e\n\u003e **Common Pitfalls to Avoid**:\n\u003e - Using multiple words or phrases in text (MOST COMMON ERROR - AVOID AT ALL COSTS)\n\u003e - Generic non-biblical imagery\n\u003e - Overly modern or secular elements\n\u003e - Detailed human faces (can appear irreverent)\n\u003e - Dark or negative imagery\n\u003e - Commercial or materialistic elements\n\u003e\n\u003e **Output Format**:\n\u003e {\n\u003e   \"image_prompt\": [\n\u003e     {\n\u003e       \"prompt\": \"[Complete detailed prompt following structure above]\"\n\u003e     }\n\u003e   ]\n\u003e }\n\u003e\n\u003e **Process**:\n\u003e 1. Read the spiritual theme and Bible verse context from the content\n\u003e 2. Select EXACTLY ONE SINGLE WORD that best captures the essence (e.g., HOPE, FAITH, PEACE, LOVE, JOY, GRACE)\n\u003e 3. VERIFY: Count the words - if more than 1, STOP and choose a different single word\n\u003e 4. Choose appropriate biblical imagery/setting\n\u003e 5. Construct the complete prompt with your ONE WORD following the structure\n\u003e 6. FINAL CHECK: Ensure your text overlay is ONE WORD ONLY (no spaces, no phrases)\n\u003e 7. Return in JSON format\n\u003e\n\u003e **Remember**: The image will FAIL if you use multiple words. When in doubt, choose: HOPE, FAITH, LOVE, PEACE, JOY, GRACE, STRENGTH, TRUST, LIGHT, or MERCY\""
-                                                     },
-                                         "hasOutputParser":  true
-                                     },
-                      "id":  "dc7049b6-98c0-463b-84da-1859bb0c39e5",
-                      "name":  "🎨 Generate Image Prompt",
-                      "type":  "@n8n/n8n-nodes-langchain.agent",
-                      "position":  [
-                                       2860,
-                                       800
-                                   ],
-                      "typeVersion":  1.7
-                  },
-                  {
-                      "parameters":  {
-                                         "operation":  "sendPhoto",
-                                         "chatId":  "1745352599",
-                                         "binaryData":  true,
-                                         "additionalFields":  {
-                                                                  "caption":  "",
-                                                                  "disable_notification":  false
-                                                              }
-                                     },
-                      "id":  "a2352b18-a9ba-4c2e-99e8-cd55697b5c6f",
-                      "name":  "📤 Send Image to User",
-                      "type":  "n8n-nodes-base.telegram",
-                      "position":  [
-                                       4140,
-                                       720
-                                   ],
-                      "webhookId":  "ca4806ac-202c-4709-92f9-6484397c17c4",
-                      "typeVersion":  1.2,
-                      "credentials":  {
-                                          "telegramApi":  {
-                                                              "id":  "jaamq7OjzrdwZAeT",
-                                                              "name":  "Telegram account"
-                                                          }
-                                      }
-                  },
-                  {
-                      "parameters":  {
-                                         "modelName":  "models/gemini-robotics-er-1.5-preview",
-                                         "options":  {
-                                                         "maxOutputTokens":  65536,
-                                                         "temperature":  0.5,
-                                                         "topK":  40,
-                                                         "topP":  1,
-                                                         "safetySettings":  {
-                                                                                "values":  [
-                                                                                               {
-                                                                                                   "category":  "HARM_CATEGORY_HARASSMENT",
-                                                                                                   "threshold":  "BLOCK_NONE"
-                                                                                               },
-                                                                                               {
-                                                                                                   "category":  "HARM_CATEGORY_HATE_SPEECH",
-                                                                                                   "threshold":  "BLOCK_NONE"
-                                                                                               },
-                                                                                               {
-                                                                                                   "category":  "HARM_CATEGORY_SEXUALLY_EXPLICIT",
-                                                                                                   "threshold":  "BLOCK_NONE"
-                                                                                               },
-                                                                                               {
-                                                                                                   "category":  "HARM_CATEGORY_DANGEROUS_CONTENT",
-                                                                                                   "threshold":  "BLOCK_NONE"
-                                                                                               }
-                                                                                           ]
-                                                                            }
-                                                     }
-                                     },
-                      "id":  "b4d34b55-38f2-470e-8ba8-719d94712af1",
-                      "name":  "Gemini Model (Image Prompt)",
-                      "type":  "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-                      "position":  [
-                                       2860,
-                                       1080
-                                   ],
-                      "typeVersion":  1,
-                      "credentials":  {
-                                          "googlePalmApi":  {
-                                                                "id":  "kxcftpSczlNkjgw6",
-                                                                "name":  "Google Gemini(PaLM) Api account"
-                                                            }
-                                      }
-                  },
-                  {
-                      "parameters":  {
-                                         "jsCode":  "const now = new Date();\nconst irishTime = new Date(now.toLocaleString(\u0027en-US\u0027, { timeZone: \u0027Europe/Dublin\u0027 }));\n\nreturn [{\n  json: {\n    date: irishTime.toISOString().split(\u0027T\u0027)[0],\n    dayOfWeek: irishTime.toLocaleDateString(\u0027en-IE\u0027, { weekday: \u0027long\u0027 }),\n    dayOfMonth: irishTime.getDate(),\n    month: irishTime.getMonth() + 1,\n    monthName: irishTime.toLocaleDateString(\u0027en-IE\u0027, { month: \u0027long\u0027 }),\n    year: irishTime.getFullYear(),\n    formattedDate: irishTime.toLocaleDateString(\u0027en-IE\u0027, { \n      weekday: \u0027long\u0027, \n      year: \u0027numeric\u0027, \n      month: \u0027long\u0027, \n      day: \u0027numeric\u0027 \n    })\n  }\n}];"
-                                     },
-                      "id":  "e1a2b3c4-d5e6-f7g8-h9i0-j1k2l3m4n5o6",
-                      "name":  "📅 Get Irish Date/Time",
-                      "type":  "n8n-nodes-base.code",
-                      "position":  [
-                                       1460,
-                                       620
-                                   ],
-                      "typeVersion":  2
-                  },
-                  {
-                      "parameters":  {
-                                         "promptType":  "define",
-                                         "text":  "={{ \u0027What celebrations, holidays, or observances occur in Ireland on \u0027 + $(\u0027Get Current Date\u0027).item.json.formattedDate + \u0027 (\u0027 + $(\u0027Get Current Date\u0027).item.json.date + \u0027)? Please provide comprehensive information including religious, national, cultural, and liturgical calendar events.\u0027 }}",
-                                         "options":  {
-                                                         "systemMessage":  "**Role**: Irish Liturgical \u0026 Christian Heritage Calendar Expert\n\n**System Message**:\n\u003e \"You are a scholar of Irish Christian heritage and liturgical tradition. Given a specific date, provide a brief, meaningful description of today's significance in 1-2 sentences only.\n\u003e\n\u003e **Your Task:**\n\u003e Identify if today is a special celebration, feast day, liturgical season moment, or ordinary day, then write ONLY 1-2 sentences describing its spiritual significance.\n\u003e\n\u003e **What to Include:**\n\u003e - Name of the celebration/feast/saint (if applicable)\n\u003e - Liturgical season (Advent, Lent, Easter, Ordinary Time, etc.)\n\u003e - Brief spiritual meaning or focus for the day\n\u003e\n\u003e **Output Format:**\n\u003e Return ONLY 1-2 concise sentences. No JSON, no lists, just plain text.\n\u003e\n\u003e **Examples:**\n\u003e - \"Today is the Feast of St. Brigid, patroness of Ireland, celebrated for her hospitality and bringing Christ's light to others.\"\n\u003e - \"We are in the Second Week of Lent, a season calling us to repentance, prayer, and drawing closer to God.\"\n\u003e - \"Today is an ordinary Friday in the liturgical calendar, inviting us to reflect on Christ's sacrificial love.\"\n\u003e - \"Christmas Day celebrates the Incarnation - God becoming flesh to dwell among us and bring salvation.\"\n\u003e\n\u003e **Important:**\n\u003e - Keep it to 1-2 sentences maximum\n\u003e - Focus on theological/spiritual significance\n\u003e - Be concise and clear\n\u003e - If it's an ordinary day, briefly note the liturgical season or day of the week's spiritual theme\"",
-                                                         "temperature":  0.3,
-                                                         "maxOutputTokens":  2048
-                                                     }
-                                     },
-                      "type":  "@n8n/n8n-nodes-langchain.agent",
-                      "typeVersion":  3,
-                      "position":  [
-                                       1760,
-                                       620
-                                   ],
-                      "id":  "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6",
-                      "name":  "🗓️ Irish Calendar Context"
-                  },
-                  {
-                      "parameters":  {
-                                         "modelName":  "models/gemini-robotics-er-1.5-preview",
-                                         "options":  {
-                                                         "temperature":  0.3,
-                                                         "maxOutputTokens":  2048
-                                                     }
-                                     },
-                      "type":  "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-                      "typeVersion":  1,
-                      "position":  [
-                                       1760,
-                                       880
-                                   ],
-                      "id":  "b2c3d4e5-f6g7-h8i9-j0k1-l2m3n4o5p6q7",
-                      "name":  "Gemini Model (Calendar)",
-                      "credentials":  {
-                                          "googlePalmApi":  {
-                                                                "id":  "kxcftpSczlNkjgw6",
-                                                                "name":  "Google Gemini(PaLM) Api account"
-                                                            }
-                                      }
-                  },
-                  {
-                      "parameters":  {
-                                         "promptType":  "define",
-                                         "text":  "={{ \u0027User request: \u0027 + $(\u0027When chat message received\u0027).item.json.chatInput + \u0027\\n\\nToday is: \u0027 + $(\u0027Get Current Date\u0027).item.json.formattedDate + \u0027\\n\\nIrish Calendar Context:\\n\u0027 + $(\u0027AI Agent - Irish Calendar Lookup\u0027).item.json.output + \u0027\\n\\nPlease select an appropriate spiritual theme.\u0027 }}",
-                                         "options":  {
-                                                         "systemMessage":  "**Role**: Biblically-Grounded Spiritual Theme Selector\n\n**System Message**:\n\u003e \"You are a theologically-informed content planner for Christian social media serving an Irish audience. Your calling is to discern themes that are rooted in Scripture, aligned with the Church calendar, and relevant to the spiritual journey of believers.\n\u003e\n\u003e **Context You\u0027ll Receive**:\n\u003e - Today\u0027s date and liturgical designation\n\u003e - Irish Christian celebrations and feast days\n\u003e - Liturgical season with theological significance\n\u003e - Biblical foundation for the day\u0027s observances\n\u003e - Cultural-spiritual context for Irish Christianity\n\u003e\n\u003e **Theme Selection Principles**:\n\u003e 1. **Theological Depth**: Choose themes that reflect sound biblical doctrine and the fullness of Christian faith\n\u003e 2. **Liturgical Alignment**: Honor the Church calendar\u0027s wisdom in guiding believers through salvation history\n\u003e 3. **Gospel-Centered**: Ensure all themes ultimately point to Christ and His redemptive work\n\u003e 4. **Irish Christian Heritage**: Respect both Catholic and Protestant traditions while maintaining biblical unity\n\u003e\n\u003e **Selection Guidelines**:\n\u003e\n\u003e **For Major Celebrations:**\n\u003e - Focus on the core theological truth being celebrated\n\u003e - Example: Easter Sunday → \"Christ is Risen\" or \"Resurrection Victory\"\n\u003e - Example: St. Patrick\u0027s Day → \"Missionary Faithfulness\" or \"Gospel Courage\"\n\u003e - Example: Pentecost → \"Spirit\u0027s Power\" or \"Holy Spirit Fire\"\n\u003e\n\u003e **For Liturgical Seasons:**\n\u003e - Advent → \"Waiting in Hope\", \"Preparing Hearts\", \"Promised Messiah\"\n\u003e - Lent → \"Repentance and Return\", \"Fasting and Prayer\", \"Journey to the Cross\"\n\u003e - Easter Season → \"New Creation\", \"Living in Victory\", \"Resurrection Power\"\n\u003e - Ordinary Time → \"Growing in Grace\", \"Daily Discipleship\", \"Walking in Faith\"\n\u003e\n\u003e **For Saints\u0027 Days (especially Irish saints):**\n\u003e - Draw from their witness and biblical virtues they exemplified\n\u003e - Example: St. Brigid → \"Generous Hospitality\" or \"Christ\u0027s Light Shining\"\n\u003e - Example: St. Columba → \"Bold Witness\" or \"Monastic Devotion\"\n\u003e\n\u003e **For Ordinary Days:**\n\u003e - Select universally relevant biblical themes\n\u003e - God\u0027s Faithfulness, Trusting Providence, Abiding in Christ, Bearing Good Fruit\n\u003e - Consider day of week: Monday (New Beginnings), Friday (Sacrificial Love), Sunday (Sabbath Rest)\n\u003e\n\u003e **Quality Standards**:\n\u003e - Themes must be biblically defensible and theologically rich\n\u003e - Avoid shallow \"prosperity gospel\" or purely motivational themes\n\u003e - Balance comfort with challenge, grace with truth\n\u003e - Use language accessible to ordinary believers yet honoring theological depth\n\u003e\n\u003e **Output**: Return ONLY the theme name (2-5 words, may include brief Scripture reference if highly relevant)\n\u003e\n\u003e **Examples**:\n\u003e - Input: \"Feast of the Annunciation\" → Output: \"Mary\u0027s Yes to God\"\n\u003e - Input: \"Good Friday\" → Output: \"The Cross: Our Redemption\"\n\u003e - Input: \"4th Sunday of Ordinary Time\" → Output: \"Growing in Godliness\"\n\u003e - Input: \"St. Brigid\u0027s Day\" → Output: \"Light of Hospitality\""
-                                                     }
-                                     },
-                      "type":  "@n8n/n8n-nodes-langchain.agent",
-                      "typeVersion":  3,
-                      "position":  [
-                                       2080,
-                                       620
-                                   ],
-                      "id":  "3aa636ca-0597-460a-85e9-66e407137816",
-                      "name":  "🎯 Select Spiritual Theme"
-                  },
-                  {
-                      "parameters":  {
-                                         "modelName":  "models/gemini-robotics-er-1.5-preview",
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "type":  "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-                      "typeVersion":  1,
-                      "position":  [
-                                       2080,
-                                       880
-                                   ],
-                      "id":  "a522b434-0fa7-4396-83c9-0bb3bfae8c4e",
-                      "name":  "Gemini Model (Theme Selector)",
-                      "credentials":  {
-                                          "googlePalmApi":  {
-                                                                "id":  "kxcftpSczlNkjgw6",
-                                                                "name":  "Google Gemini(PaLM) Api account"
-                                                            }
-                                      }
-                  },
-                  {
-                      "parameters":  {
-                                         "mode":  "insert",
-                                         "qdrantCollection":  {
-                                                                  "__rl":  true,
-                                                                  "value":  "=my-collection",
-                                                                  "mode":  "id"
-                                                              },
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "type":  "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
-                      "typeVersion":  1.3,
-                      "position":  [
-                                       780,
-                                       0
-                                   ],
-                      "id":  "de4e9ace-2cee-4b4d-9b27-89cd28e3fbb4",
-                      "name":  "💾 Store Bible in Vector DB",
-                      "credentials":  {
-                                          "qdrantApi":  {
-                                                            "id":  "D9IhncbU5UKpL0h6",
-                                                            "name":  "QdrantApi account"
-                                                        }
-                                      }
-                  },
-                  {
-                      "parameters":  {
-
-                                     },
-                      "type":  "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
-                      "typeVersion":  1,
-                      "position":  [
-                                       656,
-                                       192
-                                   ],
-                      "id":  "5c498ee7-bfc5-4779-aeed-1b479a5fa43c",
-                      "name":  "Embeddings Google Gemini2",
-                      "credentials":  {
-                                          "googlePalmApi":  {
-                                                                "id":  "kxcftpSczlNkjgw6",
-                                                                "name":  "Google Gemini(PaLM) Api account"
-                                                            }
-                                      }
-                  },
-                  {
-                      "parameters":  {
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "type":  "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
-                      "typeVersion":  1.1,
-                      "position":  [
-                                       832,
-                                       208
-                                   ],
-                      "id":  "9e59569a-087c-4ecd-bd00-1e9f94ccbbb4",
-                      "name":  "Default Data Loader1"
-                  },
-                  {
-                      "parameters":  {
-                                         "mode":  "retrieve-as-tool",
-                                         "toolDescription":  "Retrieval of quotes!",
-                                         "qdrantCollection":  {
-                                                                  "__rl":  true,
-                                                                  "value":  "my-collection",
-                                                                  "mode":  "id"
-                                                              },
-                                         "options":  {
-
-                                                     }
-                                     },
-                      "type":  "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
-                      "typeVersion":  1.3,
-                      "position":  [
-                                       2440,
-                                       1300
-                                   ],
-                      "id":  "2a5f4987-b027-493f-8697-20d7c87ab143",
-                      "name":  "📖 Search Bible Verses",
-                      "credentials":  {
-                                          "qdrantApi":  {
-                                                            "id":  "D9IhncbU5UKpL0h6",
-                                                            "name":  "QdrantApi account"
-                                                        }
-                                      }
-                  },
-                  {
-                      "parameters":  {
-
-                                     },
-                      "type":  "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
-                      "typeVersion":  1,
-                      "position":  [
-                                       2440,
-                                       1480
-                                   ],
-                      "id":  "0342bdbe-f162-46c8-bda2-ab7e791c03d9",
-                      "name":  "Embeddings (Retrieval)",
-                      "credentials":  {
-                                          "googlePalmApi":  {
-                                                                "id":  "kxcftpSczlNkjgw6",
-                                                                "name":  "Google Gemini(PaLM) Api account"
-                                                            }
-                                      }
-                  },
-                  {
-                      "parameters":  {
-                                         "chatId":  "1745352599",
-                                         "text":  "={{ $json.output }}",
-                                         "additionalFields":  {
-                                                                  "appendAttribution":  false
-                                                              }
-                                     },
-                      "id":  "f52ecc4b-4c15-49f1-ba8a-d0b7e7b60720",
-                      "name":  "📤 Send Text Post to User",
-                      "type":  "n8n-nodes-base.telegram",
-                      "position":  [
-                                       2760,
-                                       1000
-                                   ],
-                      "webhookId":  "ca4806ac-202c-4709-92f9-6484397c17c4",
-                      "typeVersion":  1.2,
-                      "credentials":  {
-                                          "telegramApi":  {
-                                                              "id":  "jaamq7OjzrdwZAeT",
-                                                              "name":  "Telegram account"
-                                                          }
-                                      }
-                  },
-                  {
-                      "parameters":  {
-                                         "updates":  [
-                                                         "message"
-                                                     ],
-                                         "additionalFields":  {
-
-                                                              }
-                                     },
-                      "id":  "71b64b8d-0ae4-4660-bc00-66651fa7960b",
-                      "name":  "📱 Telegram User Input",
-                      "type":  "n8n-nodes-base.telegramTrigger",
-                      "position":  [
-                                       1140,
-                                       700
-                                   ],
-                      "webhookId":  "ff17baeb-3182-41c4-b60a-e6159b02023b",
-                      "typeVersion":  1.2,
-                      "credentials":  {
-                                          "telegramApi":  {
-                                                              "id":  "jaamq7OjzrdwZAeT",
-                                                              "name":  "Telegram account"
-                                                          }
-                                      }
-                  }
-              ],
-    "pinData":  {
-
+{
+    "name": "Bible Quotations",
+    "nodes": [
+        {
+            "parameters": {},
+            "type": "n8n-nodes-base.manualTrigger",
+            "typeVersion": 1,
+            "position": [
+                0,
+                0
+            ],
+            "id": "b3f5bab0-fb46-49b3-a639-a60a70b99b67",
+            "name": "When clicking ‘Execute workflow’"
+        },
+        {
+            "parameters": {
+                "url": "https://csbible.com/wp-content/uploads/2018/03/CSB_Pew_Bible_2nd_Printing.pdf",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [
+                260,
+                0
+            ],
+            "id": "dad36350-e78c-4a9f-8531-844795f41f4e",
+            "name": "HTTP Request - Download Bible PDF"
+        },
+        {
+            "parameters": {
+                "operation": "pdf",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.extractFromFile",
+            "typeVersion": 1.1,
+            "position": [
+                520,
+                0
+            ],
+            "id": "d2c63f28-d282-449b-9eca-0226bbe42f10",
+            "name": "Extract Bible Text from PDF"
+        },
+        {
+            "parameters": {
+                "url": "https://www.divinerevelations.info/documents/bible/russian_pdf_bible_ot_nt/80_Old_Testament_Russian.pdf",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [
+                260,
+                400
+            ],
+            "id": "rus-bible-001",
+            "name": "Russian Bible OT Download"
+        },
+        {
+            "parameters": {
+                "url": "https://www.divinerevelations.info/documents/bible/russian_pdf_bible_ot_nt/90_New_Testament_Russian.pdf",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 4.3,
+            "position": [
+                260,
+                600
+            ],
+            "id": "rus-bible-001b",
+            "name": "Russian Bible NT Download"
+        },
+        {
+            "parameters": {
+                "operation": "pdf",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.extractFromFile",
+            "typeVersion": 1.1,
+            "position": [
+                520,
+                400
+            ],
+            "id": "rus-bible-002",
+            "name": "Russian Bible OT Extract"
+        },
+        {
+            "parameters": {
+                "operation": "pdf",
+                "options": {}
+            },
+            "type": "n8n-nodes-base.extractFromFile",
+            "typeVersion": 1.1,
+            "position": [
+                520,
+                600
+            ],
+            "id": "rus-bible-002b",
+            "name": "Russian Bible NT Extract"
+        },
+        {
+            "parameters": {
+                "mode": "insert",
+                "qdrantCollection": {
+                    "__rl": true,
+                    "value": "=russian-bible-collection",
+                    "mode": "id"
                 },
-    "connections":  {
-                        "When clicking ‘Execute workflow’":  {
-                                                                 "main":  [
-                                                                              [
-                                                                                  {
-                                                                                      "node":  "HTTP Request",
-                                                                                      "type":  "main",
-                                                                                      "index":  0
-                                                                                  }
-                                                                              ]
-                                                                          ]
-                                                             },
-                        "HTTP Request":  {
-                                             "main":  [
-                                                          [
-                                                              {
-                                                                  "node":  "Extract from File",
-                                                                  "type":  "main",
-                                                                  "index":  0
-                                                              }
-                                                          ]
-                                                      ]
-                                         },
-                        "Extract Bible Text from PDF":  {
-                                                  "main":  [
-                                                               [
-                                                                   {
-                                                                       "node":  "💾 Store Bible in Vector DB",
-                                                                       "type":  "main",
-                                                                       "index":  0
-                                                                   }
-                                                               ]
-                                                           ]
-                                              },
-                        "📱 User Request (Telegram/Chat)":  {
-                                                           "main":  [
-                                                                        [
-                                                                            {
-                                                                                "node":  "⚙️ Set Image Parameters",
-                                                                                "type":  "main",
-                                                                                "index":  0
-                                                                            }
-                                                                        ]
-                                                                    ]
-                                                       },
-                        "Gemini Model (Post Creator)":  {
-                                                         "ai_languageModel":  [
-                                                                                  [
-                                                                                      {
-                                                                                          "node":  "✍️ Create Bible Quotation Post",
-                                                                                          "type":  "ai_languageModel",
-                                                                                          "index":  0
-                                                                                      }
-                                                                                  ]
-                                                                              ]
-                                                     },
-                        "⚙️ Set Image Parameters":  {
-                                                    "main":  [
-                                                                 [
-                                                                     {
-                                                                         "node":  "📅 Get Irish Date/Time",
-                                                                         "type":  "main",
-                                                                         "index":  0
-                                                                     }
-                                                                 ]
-                                                             ]
-                                                },
-                        "📅 Get Irish Date/Time":  {
-                                                 "main":  [
-                                                              [
-                                                                  {
-                                                                      "node":  "🗓️ Irish Calendar Context",
-                                                                      "type":  "main",
-                                                                      "index":  0
-                                                                  }
-                                                              ]
-                                                          ]
-                                             },
-                        "🗓️ Irish Calendar Context":  {
-                                                                 "main":  [
-                                                                              [
-                                                                                  {
-                                                                                      "node":  "🎯 Select Spiritual Theme",
-                                                                                      "type":  "main",
-                                                                                      "index":  0
-                                                                                  }
-                                                                              ]
-                                                                          ]
-                                                             },
-                        "Gemini Model (Calendar)":  {
-                                                                    "ai_languageModel":  [
-                                                                                             [
-                                                                                                 {
-                                                                                                     "node":  "🗓️ Irish Calendar Context",
-                                                                                                     "type":  "ai_languageModel",
-                                                                                                     "index":  0
-                                                                                                 }
-                                                                                             ]
-                                                                                         ]
-                                                                },
-                        "Parse Image Prompt JSON":  {
-                                                  "main":  [
-                                                               [
-                                                                   {
-                                                                       "node":  "Build Image API Request",
-                                                                       "type":  "main",
-                                                                       "index":  0
-                                                                   }
-                                                               ]
-                                                           ]
-                                              },
-                        "Build Image API Request":  {
-                                                  "main":  [
-                                                               [
-                                                                   {
-                                                                       "node":  "Set Image Filename",
-                                                                       "type":  "main",
-                                                                       "index":  0
-                                                                   }
-                                                               ]
-                                                           ]
-                                              },
-                        "🖼️ Generate Biblical Image":  {
-                                                            "main":  [
-                                                                         [
-                                                                             {
-                                                                                 "node":  "📤 Send Image to User",
-                                                                                 "type":  "main",
-                                                                                 "index":  0
-                                                                             }
-                                                                         ]
-                                                                     ]
-                                                        },
-                        "Set Image Filename":  {
-                                                    "main":  [
-                                                                 [
-                                                                     {
-                                                                         "node":  "🖼️ Generate Biblical Image",
-                                                                         "type":  "main",
-                                                                         "index":  0
-                                                                     }
-                                                                 ]
-                                                             ]
-                                                },
-                        "🎨 Generate Image Prompt":  {
-                                                                    "main":  [
-                                                                                 [
-                                                                                     {
-                                                                                         "node":  "Parse Image Prompt JSON",
-                                                                                         "type":  "main",
-                                                                                         "index":  0
-                                                                                     }
-                                                                                 ]
-                                                                             ]
-                                                                },
-                        "Gemini Model (Image Prompt)":  {
-                                                          "ai_languageModel":  [
-                                                                                   [
-                                                                                       {
-                                                                                           "node":  "🎨 Generate Image Prompt",
-                                                                                           "type":  "ai_languageModel",
-                                                                                           "index":  0
-                                                                                       }
-                                                                                   ]
-                                                                               ]
-                                                      },
-                        "✍️ Create Bible Quotation Post":  {
-                                         "main":  [
-                                                      [
-                                                          {
-                                                              "node":  "🎨 Generate Image Prompt",
-                                                              "type":  "main",
-                                                              "index":  0
-                                                          },
-                                                          {
-                                                              "node":  "📤 Send Text Post to User",
-                                                              "type":  "main",
-                                                              "index":  0
-                                                          }
-                                                      ]
-                                                  ]
-                                     },
-                        "🎯 Select Spiritual Theme":  {
-                                          "main":  [
-                                                       [
-                                                           {
-                                                               "node":  "✍️ Create Bible Quotation Post",
-                                                               "type":  "main",
-                                                               "index":  0
-                                                           }
-                                                       ]
-                                                   ]
-                                      },
-                        "Gemini Model (Theme Selector)":  {
-                                                          "ai_languageModel":  [
-                                                                                   [
-                                                                                       {
-                                                                                           "node":  "🎯 Select Spiritual Theme",
-                                                                                           "type":  "ai_languageModel",
-                                                                                           "index":  0
-                                                                                       }
-                                                                                   ]
-                                                                               ]
-                                                      },
-                        "Embeddings Google Gemini2":  {
-                                                          "ai_embedding":  [
-                                                                               [
-                                                                                   {
-                                                                                       "node":  "💾 Store Bible in Vector DB",
-                                                                                       "type":  "ai_embedding",
-                                                                                       "index":  0
-                                                                                   }
-                                                                               ]
-                                                                           ]
-                                                      },
-                        "Default Data Loader1":  {
-                                                     "ai_document":  [
-                                                                         [
-                                                                             {
-                                                                                 "node":  "💾 Store Bible in Vector DB",
-                                                                                 "type":  "ai_document",
-                                                                                 "index":  0
-                                                                             }
-                                                                         ]
-                                                                     ]
-                                                 },
-                        "📖 Search Bible Verses":  {
-                                                     "ai_tool":  [
-                                                                     [
-                                                                         {
-                                                                             "node":  "✍️ Create Bible Quotation Post",
-                                                                             "type":  "ai_tool",
-                                                                             "index":  0
-                                                                         }
-                                                                     ]
-                                                                 ]
-                                                 },
-                        "Embeddings (Retrieval)":  {
-                                                         "ai_embedding":  [
-                                                                              [
-                                                                                  {
-                                                                                      "node":  "📖 Search Bible Verses",
-                                                                                      "type":  "ai_embedding",
-                                                                                      "index":  0
-                                                                                  }
-                                                                              ]
-                                                                          ]
-                                                     },
-                        "📱 Telegram User Input":  {
-                                                 "main":  [
-                                                              [
-                                                                  {
-                                                                      "node":  "⚙️ Set Image Parameters",
-                                                                      "type":  "main",
-                                                                      "index":  0
-                                                                  },
-                                                                  {
-                                                                      "node":  "📅 Get Irish Date/Time",
-                                                                      "type":  "main",
-                                                                      "index":  0
-                                                                  }
-                                                              ]
-                                                          ]
-                                             }
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+            "typeVersion": 1.3,
+            "position": [
+                780,
+                500
+            ],
+            "id": "rus-bible-003",
+            "name": "Russian Bible Store",
+            "credentials": {
+                "qdrantApi": {
+                    "id": "D9IhncbU5UKpL0h6",
+                    "name": "QdrantApi account"
+                }
+            }
+        },
+        {
+            "parameters": {},
+            "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                656,
+                592
+            ],
+            "id": "rus-bible-004",
+            "name": "Russian Embeddings Storage",
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "kxcftpSczlNkjgw6",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+            "typeVersion": 1.1,
+            "position": [
+                832,
+                608
+            ],
+            "id": "rus-bible-005",
+            "name": "Russian Data Loader"
+        },
+        {
+            "parameters": {
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+            "typeVersion": 1.4,
+            "position": [
+                1140,
+                900
+            ],
+            "id": "c34eae61-5bd7-4b89-a3dc-c4312afbf479",
+            "name": "📱 User Request (Telegram/Chat)",
+            "webhookId": "80f50ece-5b3c-4aff-96c1-50885f311533"
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "={{ 'Today\\'s Context: ' + $('🗓️ Irish Calendar Context').item.json.output + '\\n\\nSpiritual Theme: ' + $('🎯 Select Spiritual Theme').item.json.output + '\\n\\nPlease create a Facebook post based on this theme and context.' }}",
+                "options": {
+                    "systemMessage": "**Role**: Biblical Content Creator for Christian Social Media\n**System Message**:\n> \"You are a biblically-grounded content creator serving a Christian community in Ireland. Your purpose is to illuminate Scripture's timeless truth and draw hearts closer to God through thoughtful, engaging social media posts.\n>\n> **Core Principles:**\n> - **Scripture is Central**: Let God's Word speak; your reflection serves to illuminate, not overshadow\n> - **Theological Accuracy**: Ensure biblical interpretation is sound and faithful to orthodox Christian teaching\n> - **Gospel-Centered**: Point ultimately to Christ's redemptive work and God's love\n> - **Cultural Sensitivity**: Honor Irish Catholic and Protestant traditions while maintaining biblical unity\n>\n> **Content Guidelines:**\n> 1. **Scripture Selection**: Choose the verse that most powerfully speaks to the theme, considering context and theological depth\n> 2. **Biblical Reflection** (2-3 sentences):\n>    - Connect the theme to the verse with theological insight\n>    - Ground reflections in the broader biblical narrative\n>    - Show how this truth applies to daily Christian living\n>    - Avoid shallow positivity; embrace the full depth of Scripture (comfort AND challenge)\n> 3. **Quote the Complete Verse**: Present Scripture reverently and accurately\n> 4. **Precise Citation**: Include book, chapter:verse reference (e.g., John 3:16)\n> 5. **Reverent Tone**: Warm and accessible, yet maintaining the holiness of God's Word\n> 6. **Thoughtful Emojis**: Use sparingly and appropriately (✝️ 🙏 ❤️ 🕊️) - avoid trivializing sacred content\n> 7. **Authentic Faith**: Be genuine, not preachy; inspire through truth, not manipulation\n> 8. **Invitation to Reflection**: End with a thoughtful question that encourages biblical meditation and community sharing\n>\n> **Irish Christian Context:**\n> - Acknowledge both Catholic and Protestant traditions where appropriate\n> - Reference Irish saints or local celebrations when relevant\n> - Use inclusive language that builds unity in Christ\n>\n> **Example Structure:**\n> [Opening line connecting theme to lived experience]\n> [Biblical insight showing Scripture's relevance]\n> [Application to daily faith]\n>\n> [Full Scripture quotation]\n> — [Book Chapter:Verse]\n>\n> [Thoughtful question for reflection] 🙏\""
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 3,
+            "position": [
+                2440,
+                800
+            ],
+            "id": "f3f02f21-72a5-476a-a074-230707d855d1",
+            "name": "✍️ Create Bible Quotation Post"
+        },
+        {
+            "parameters": {
+                "modelName": "models/gemini-robotics-er-1.5-preview",
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                2440,
+                1080
+            ],
+            "id": "76ce13ea-901c-41a9-9dde-4901cc6754b7",
+            "name": "Gemini Model (Post Creator)",
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "kxcftpSczlNkjgw6",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "id": "4e04fec4-441e-45f7-acea-0017a4b5c104",
+                            "name": "model",
+                            "type": "string",
+                            "value": "flux"
+                        },
+                        {
+                            "id": "aa80cd68-1c82-4032-b1d7-e098856eec38",
+                            "name": "width",
+                            "type": "string",
+                            "value": "1080"
+                        },
+                        {
+                            "id": "da6d305f-aece-49bd-ae02-52df59915c60",
+                            "name": "height",
+                            "type": "string",
+                            "value": "1920"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "c7abd7de-6e91-4ec1-bdaa-c15d7a9ae5d9",
+            "name": "⚙️ Set Image Parameters",
+            "type": "n8n-nodes-base.set",
+            "position": [
+                1460,
+                800
+            ],
+            "typeVersion": 3.4
+        },
+        {
+            "parameters": {
+                "jsCode": "function cleanAndExtractJSON(response) {\n    try {\n        const result = {\n            image_prompt: []\n        };\n\n        const lines = response.split('\\n');\n        let currentPrompt = '';\n\n        for (const line of lines) {\n            if (line.includes('\"prompt\":')) {\n                if (currentPrompt) {\n                    result.image_prompt.push(currentPrompt.trim());\n                }\n                currentPrompt = line.split('\"prompt\":')[1].trim();\n            }\n        }\n\n        if (currentPrompt) {\n            result.image_prompt.push(currentPrompt.trim());\n        }\n\n        return { json: result };\n        \n    } catch (error) {\n        return { \n            json: {\n                image_prompt: []\n            }\n        };\n    }\n}\n\nconst response = $input.first().json.output;\nreturn cleanAndExtractJSON(response);"
+            },
+            "id": "6a2d3954-d769-4943-9744-d373f442d937",
+            "name": "Parse Image Prompt JSON",
+            "type": "n8n-nodes-base.code",
+            "position": [
+                3180,
+                800
+            ],
+            "executeOnce": false,
+            "typeVersion": 2,
+            "alwaysOutputData": true
+        },
+        {
+            "parameters": {
+                "jsCode": "return $input.first().json.image_prompt.map(prompt => ({\n  json: {\n    body: {\n      prompt: prompt,\n  \"image_size\": {\n    \"width\": $('⚙️ Set Image Parameters').first().json.width,\n    \"height\": $('⚙️ Set Image Parameters').first().json.height\n  },\n  \"num_inference_steps\": 12,\n  \"guidance_scale\": 3.5,\n  \"num_images\": 1,\n  \"enable_safety_checker\": true,\n}\n    }\n  }\n));"
+            },
+            "id": "55813be5-2afc-4668-bd69-30abd1997965",
+            "name": "Build Image API Request",
+            "type": "n8n-nodes-base.code",
+            "position": [
+                3420,
+                800
+            ],
+            "typeVersion": 2,
+            "alwaysOutputData": true
+        },
+        {
+            "parameters": {
+                "url": "=https://image.pollinations.ai/prompt/ {{ $('Build Image API Request').item.json.body.prompt }}",
+                "sendQuery": true,
+                "specifyQuery": "json",
+                "jsonQuery": "={\n  \"width\": {{ $('⚙️ Set Image Parameters').item.json.width }},\n  \"height\": {{ $('⚙️ Set Image Parameters').item.json.height }},\n  \"model\": \"{{ $('⚙️ Set Image Parameters').item.json.model }}\",\n  \"seed\": 42,\n  \"nologo\": true\n}",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "Content-Type",
+                            "value": "application/json"
+                        },
+                        {
+                            "name": "Accept",
+                            "value": "application/json"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "294bf7fb-fd6f-4a39-b2a5-5eb14089bdcd",
+            "name": "🖼️ Generate Biblical Image",
+            "type": "n8n-nodes-base.httpRequest",
+            "position": [
+                3900,
+                800
+            ],
+            "retryOnFail": true,
+            "typeVersion": 4.2,
+            "alwaysOutputData": true,
+            "waitBetweenTries": 5000
+        },
+        {
+            "parameters": {
+                "jsCode": "for (let i = 0; i < items.length; i++) {\n  items[i].json.fileName = `images_${(i + 1).toString().padStart(3, '0')}.png`;\n}\nreturn items;"
+            },
+            "id": "0206a06c-a803-47d2-9179-d749a4cad1b4",
+            "name": "Set Image Filename",
+            "type": "n8n-nodes-base.code",
+            "position": [
+                3660,
+                800
+            ],
+            "typeVersion": 2
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "={{ 'Spiritual Theme: ' + $('🎯 Select Spiritual Theme').item.json.output + '\\n\\nBible Content and Quotation:\\n' + $('✍️ Create Bible Quotation Post').item.json.output + '\\n\\nPlease create a biblical image prompt based on this theme and quotation.' }}",
+                "hasOutputParser": true,
+                "options": {
+                    "systemMessage": "=**Role**: Biblical Image Prompt Creation Expert\n\n**System Message**:\n> \"You are an expert at creating powerful, spiritually evocative image prompts for Biblical and Christian content. Your goal is to generate prompts that produce beautiful, inspirational biblical imagery with a SINGLE WORD overlay that captures the spiritual theme.\n>\n> **Objective**:\n> - Create deeply spiritual, biblical imagery that reflects Christian faith and tradition\n> - Focus on scenes from Scripture, nature reflecting God's creation, or symbolic Christian imagery\n> - Integrate ONE WORD ONLY as text overlay (e.g., 'HOPE', 'FAITH', 'PEACE', 'LOVE', 'JOY')\n> - Maintain reverence, beauty, and spiritual depth\n> - Ensure images are suitable for Christian social media sharing\n>\n> **Standard Prompt Structure**:\n> [Biblical Scene/Setting ::9] | [Sacred Elements ::8] | [Single Word Text ::8] | [Divine Lighting ::8] | [Technical Parameters] | [Spiritual Atmosphere]\n>\n> **Component Guidelines**:\n>\n> **1. Biblical Scene/Setting (Weight ::9)**\n> Choose from these categories:\n> - **Nature & Creation**: 'majestic mountain sunrise, God's creation in glory', 'peaceful ocean at golden hour, divine serenity', 'ancient olive grove at sunset, biblical landscape'\n> - **Biblical Imagery**: 'open Bible with golden light emanating, sacred text illuminated', 'shepherd with flock on hillside, pastoral biblical scene', 'ancient Jerusalem temple ruins at dawn'\n> - **Symbolic Elements**: 'wooden cross on hilltop silhouette against sunset', 'dove descending in rays of light, Holy Spirit imagery', 'lamp on stand radiating warm light, biblical symbolism'\n> - **Celtic/Irish Christian**: 'Celtic cross standing in Irish countryside', 'ancient stone church ruins with Celtic patterns', 'illuminated manuscript style Celtic knotwork with Christian symbols'\n>\n> **2. Sacred Visual Elements (Weight ::8)**\n> Include spiritual details:\n> - Biblical symbols: cross, dove, olive branch, lamb, fish, crown of thorns, empty tomb\n> - Sacred light: divine rays, heavenly glow, golden hour illumination, ethereal light beams\n> - Nature elements: mountains, water, sky, trees, flowers, wheat fields\n> - Ancient elements: scrolls, oil lamps, stone tablets, ancient paths\n> - Irish elements (when appropriate): Celtic crosses, shamrocks, Book of Kells style patterns\n>\n> **3. Single Word Text Integration (Weight ::8)**\n> **CRITICAL**: Use ONLY ONE WORD\n> - Theme words: HOPE | FAITH | LOVE | PEACE | JOY | GRACE | STRENGTH | TRUST | LIGHT | MERCY | WISDOM | COURAGE | REDEMPTION | SALVATION | FORGIVENESS\n> - Typography: 'elegant serif font, golden lettering, subtly embossed', 'clean bold typography integrated into sky/space', 'hand-lettered calligraphic style'\n> - Placement: 'text overlaid in upper third, naturally integrated', 'word appearing in heavenly light', 'centered in composition with depth'\n> - Style: 'luminous text with soft glow', 'carved into stone appearance', 'written in clouds or light beams'\n>\n> **4. Divine Lighting & Atmosphere (Weight ::8)**\n> - Heavenly lighting: 'divine sunbeams breaking through clouds ::8', 'golden hour warm celestial glow', 'ethereal morning mist with sacred light'\n> - Spiritual atmosphere: 'peaceful, reverent, contemplative mood', 'sense of divine presence', 'hopeful, uplifting emotional tone'\n> - Color palette: 'warm golds and soft whites', 'deep blues and purples for majesty', 'earth tones for groundedness', 'soft pastels for peace'\n>\n> **5. Technical Parameters**:\n> parameters | 8k resolution, hyperrealistic, photorealistic quality, divine lighting, cinematic composition --ar 9:16\n> settings | sharp focus, high detail, professional photography, spiritual atmosphere --s 750 --q 2\n>\n> **Complete Biblical Examples**:\n>\n> **Example 1: Hope Theme**\n> 'majestic sunrise breaking over calm sea, biblical seascape with divine radiance ::9 | wooden cross silhouette on distant shore, dove in flight, golden light rays piercing clouds ::8 | single word HOPE in elegant serif font integrated into sky, luminous golden lettering ::8 | heavenly morning light, warm ethereal glow, peaceful sacred atmosphere ::8 | 8k resolution, photorealistic quality, spiritual composition --ar 9:16 --s 750 --q 2'\n>\n> **Example 2: Faith Theme**\n> 'ancient stone path winding up mountain towards light, biblical journey scene ::9 | shepherd staff leaning against rock, open Bible with pages glowing, olive branches ::8 | word FAITH in bold calligraphic script appearing in clouds, soft golden glow ::8 | dramatic sunset lighting, divine rays breaking through storm clouds, inspiring atmosphere ::8 | 8k resolution, hyperrealistic, cinematic divine lighting --ar 9:16 --s 750 --q 2'\n>\n> **Example 3: Peace Theme (Irish)**\n> 'ancient Celtic cross in Irish green countryside, stone monument at golden hour ::9 | wildflowers, rolling hills, distant monastery ruins, shamrock details in foreground ::8 | single word PEACE carved into stone texture, traditional Celtic font style ::8 | soft evening light, misty atmosphere, serene Irish landscape mood ::8 | 8k resolution, photorealistic, pastoral beauty --ar 9:16 --s 750 --q 2'\n>\n> **Example 4: Love Theme**\n> 'hands holding open glowing Bible, warm intimate lighting, sacred text visible ::9 | soft candlelight, wooden table, cross pendant, fresh flowers nearby ::8 | word LOVE in elegant script overlaid on light emanating from pages ::8 | warm golden candlelight, intimate reverent atmosphere, gentle shadows ::8 | 8k resolution, photorealistic, spiritual devotional scene --ar 9:16 --s 750 --q 2'\n>\n> **Important Rules**:\n> 1. **TEXT - MOST CRITICAL RULE**: Use EXACTLY ONE WORD ONLY - NEVER EVER use phrases, multiple words, or sentences. If you catch yourself using more than one word, STOP and select a single word instead.\n> 2. **BIBLICAL FOCUS**: All imagery must be reverent, spiritual, and appropriate for Christian content\n> 3. **NO HUMAN FACES**: Avoid detailed human faces (use silhouettes, back views, or hands only)\n> 4. **ASPECT RATIO**: Always use --ar 9:16 (vertical format for social media)\n> 5. **AUTHENTICITY**: Ensure biblical accuracy and cultural sensitivity\n> 6. **IRISH CONTEXT**: When appropriate, incorporate Celtic Christian elements for Irish audience\n> 7. **WORD SELECTION**: Choose ONE single word based on the theme/Bible verse provided in the content\n>\n> **ABSOLUTELY FORBIDDEN - These Will Fail**:\n> - ❌ Multiple words: \\\"God's Love\\\", \\\"New Life\\\", \\\"Be Strong\\\", \\\"Faith and Hope\\\"\n> - ❌ Phrases with spaces: \\\"Trust God\\\", \\\"Love Wins\\\", \\\"Christ Risen\\\"\n> - ❌ Hyphenated phrases: \\\"All-Loving\\\", \\\"Ever-Present\\\"\n> - ❌ Any text containing more than one word\n> - ✅ CORRECT: HOPE, FAITH, LOVE, PEACE, JOY, GRACE, TRUST, LIGHT, MERCY\n>\n> **Common Pitfalls to Avoid**:\n> - Using multiple words or phrases in text (MOST COMMON ERROR - AVOID AT ALL COSTS)\n> - Generic non-biblical imagery\n> - Overly modern or secular elements\n> - Detailed human faces (can appear irreverent)\n> - Dark or negative imagery\n> - Commercial or materialistic elements\n>\n> **Output Format**:\n> {\n>   \"image_prompt\": [\n>     {\n>       \"prompt\": \"[Complete detailed prompt following structure above]\"\n>     }\n>   ]\n> }\n>\n> **Process**:\n> 1. Read the spiritual theme and Bible verse context from the content\n> 2. Select EXACTLY ONE SINGLE WORD that best captures the essence (e.g., HOPE, FAITH, PEACE, LOVE, JOY, GRACE)\n> 3. VERIFY: Count the words - if more than 1, STOP and choose a different single word\n> 4. Choose appropriate biblical imagery/setting\n> 5. Construct the complete prompt with your ONE WORD following the structure\n> 6. FINAL CHECK: Ensure your text overlay is ONE WORD ONLY (no spaces, no phrases)\n> 7. Return in JSON format\n>\n> **Remember**: The image will FAIL if you use multiple words. When in doubt, choose: HOPE, FAITH, LOVE, PEACE, JOY, GRACE, STRENGTH, TRUST, LIGHT, or MERCY\""
+                }
+            },
+            "id": "dc7049b6-98c0-463b-84da-1859bb0c39e5",
+            "name": "🎨 Generate Image Prompt",
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "position": [
+                2860,
+                800
+            ],
+            "typeVersion": 1.7
+        },
+        {
+            "parameters": {
+                "operation": "sendPhoto",
+                "chatId": "1745352599",
+                "binaryData": true,
+                "additionalFields": {
+                    "caption": "",
+                    "disable_notification": false
+                }
+            },
+            "id": "a2352b18-a9ba-4c2e-99e8-cd55697b5c6f",
+            "name": "📤 Send Image to User",
+            "type": "n8n-nodes-base.telegram",
+            "position": [
+                4140,
+                720
+            ],
+            "webhookId": "ca4806ac-202c-4709-92f9-6484397c17c4",
+            "typeVersion": 1.2,
+            "credentials": {
+                "telegramApi": {
+                    "id": "jaamq7OjzrdwZAeT",
+                    "name": "Telegram account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "modelName": "models/gemini-robotics-er-1.5-preview",
+                "options": {
+                    "maxOutputTokens": 65536,
+                    "temperature": 0.5,
+                    "topK": 40,
+                    "topP": 1,
+                    "safetySettings": {
+                        "values": [
+                            {
+                                "category": "HARM_CATEGORY_HARASSMENT",
+                                "threshold": "BLOCK_NONE"
+                            },
+                            {
+                                "category": "HARM_CATEGORY_HATE_SPEECH",
+                                "threshold": "BLOCK_NONE"
+                            },
+                            {
+                                "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",
+                                "threshold": "BLOCK_NONE"
+                            },
+                            {
+                                "category": "HARM_CATEGORY_DANGEROUS_CONTENT",
+                                "threshold": "BLOCK_NONE"
+                            }
+                        ]
+                    }
+                }
+            },
+            "id": "b4d34b55-38f2-470e-8ba8-719d94712af1",
+            "name": "Gemini Model (Image Prompt)",
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "position": [
+                2860,
+                1080
+            ],
+            "typeVersion": 1,
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "kxcftpSczlNkjgw6",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "jsCode": "const now = new Date();\nconst irishTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Dublin' }));\n\nreturn [{\n  json: {\n    date: irishTime.toISOString().split('T')[0],\n    dayOfWeek: irishTime.toLocaleDateString('en-IE', { weekday: 'long' }),\n    dayOfMonth: irishTime.getDate(),\n    month: irishTime.getMonth() + 1,\n    monthName: irishTime.toLocaleDateString('en-IE', { month: 'long' }),\n    year: irishTime.getFullYear(),\n    formattedDate: irishTime.toLocaleDateString('en-IE', { \n      weekday: 'long', \n      year: 'numeric', \n      month: 'long', \n      day: 'numeric' \n    })\n  }\n}];"
+            },
+            "id": "e1a2b3c4-d5e6-f7g8-h9i0-j1k2l3m4n5o6",
+            "name": "📅 Get Irish Date/Time",
+            "type": "n8n-nodes-base.code",
+            "position": [
+                1460,
+                620
+            ],
+            "typeVersion": 2
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "={{ 'What celebrations, holidays, or observances occur in Ireland on ' + $('📅 Get Irish Date/Time').item.json.formattedDate + ' (' + $('📅 Get Irish Date/Time').item.json.date + ')? Please provide comprehensive information including religious, national, cultural, and liturgical calendar events.' }}",
+                "options": {
+                    "systemMessage": "**Role**: Irish Liturgical & Christian Heritage Calendar Expert\n\n**System Message**:\n> \"You are a scholar of Irish Christian heritage and liturgical tradition. Given a specific date, provide a brief, meaningful description of today's significance in 1-2 sentences only.\n>\n> **Your Task:**\n> Identify if today is a special celebration, feast day, liturgical season moment, or ordinary day, then write ONLY 1-2 sentences describing its spiritual significance.\n>\n> **What to Include:**\n> - Name of the celebration/feast/saint (if applicable)\n> - Liturgical season (Advent, Lent, Easter, Ordinary Time, etc.)\n> - Brief spiritual meaning or focus for the day\n>\n> **Output Format:**\n> Return ONLY 1-2 concise sentences. No JSON, no lists, just plain text.\n>\n> **Examples:**\n> - \"Today is the Feast of St. Brigid, patroness of Ireland, celebrated for her hospitality and bringing Christ's light to others.\"\n> - \"We are in the Second Week of Lent, a season calling us to repentance, prayer, and drawing closer to God.\"\n> - \"Today is an ordinary Friday in the liturgical calendar, inviting us to reflect on Christ's sacrificial love.\"\n> - \"Christmas Day celebrates the Incarnation - God becoming flesh to dwell among us and bring salvation.\"\n>\n> **Important:**\n> - Keep it to 1-2 sentences maximum\n> - Focus on theological/spiritual significance\n> - Be concise and clear\n> - If it's an ordinary day, briefly note the liturgical season or day of the week's spiritual theme\"",
+                    "temperature": 0.3,
+                    "maxOutputTokens": 2048
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 3,
+            "position": [
+                1760,
+                620
+            ],
+            "id": "a1b2c3d4-e5f6-g7h8-i9j0-k1l2m3n4o5p6",
+            "name": "🗓️ Irish Calendar Context"
+        },
+        {
+            "parameters": {
+                "modelName": "models/gemini-robotics-er-1.5-preview",
+                "options": {
+                    "temperature": 0.3,
+                    "maxOutputTokens": 2048
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                1760,
+                880
+            ],
+            "id": "b2c3d4e5-f6g7-h8i9-j0k1-l2m3n4o5p6q7",
+            "name": "Gemini Model (Calendar)",
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "kxcftpSczlNkjgw6",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "={{ 'User request: ' + $('📱 User Request (Telegram/Chat)').item.json.chatInput + '\\n\\nToday is: ' + $('📅 Get Irish Date/Time').item.json.formattedDate + '\\n\\nIrish Calendar Context:\\n' + $('🗓️ Irish Calendar Context').item.json.output + '\\n\\nPlease select an appropriate spiritual theme.' }}",
+                "options": {
+                    "systemMessage": "**Role**: Biblically-Grounded Spiritual Theme Selector\n\n**System Message**:\n> \"You are a theologically-informed content planner for Christian social media serving an Irish audience. Your calling is to discern themes that are rooted in Scripture, aligned with the Church calendar, and relevant to the spiritual journey of believers.\n>\n> **Context You'll Receive**:\n> - Today's date and liturgical designation\n> - Irish Christian celebrations and feast days\n> - Liturgical season with theological significance\n> - Biblical foundation for the day's observances\n> - Cultural-spiritual context for Irish Christianity\n>\n> **Theme Selection Principles**:\n> 1. **Theological Depth**: Choose themes that reflect sound biblical doctrine and the fullness of Christian faith\n> 2. **Liturgical Alignment**: Honor the Church calendar's wisdom in guiding believers through salvation history\n> 3. **Gospel-Centered**: Ensure all themes ultimately point to Christ and His redemptive work\n> 4. **Irish Christian Heritage**: Respect both Catholic and Protestant traditions while maintaining biblical unity\n>\n> **Selection Guidelines**:\n>\n> **For Major Celebrations:**\n> - Focus on the core theological truth being celebrated\n> - Example: Easter Sunday → \"Christ is Risen\" or \"Resurrection Victory\"\n> - Example: St. Patrick's Day → \"Missionary Faithfulness\" or \"Gospel Courage\"\n> - Example: Pentecost → \"Spirit's Power\" or \"Holy Spirit Fire\"\n>\n> **For Liturgical Seasons:**\n> - Advent → \"Waiting in Hope\", \"Preparing Hearts\", \"Promised Messiah\"\n> - Lent → \"Repentance and Return\", \"Fasting and Prayer\", \"Journey to the Cross\"\n> - Easter Season → \"New Creation\", \"Living in Victory\", \"Resurrection Power\"\n> - Ordinary Time → \"Growing in Grace\", \"Daily Discipleship\", \"Walking in Faith\"\n>\n> **For Saints' Days (especially Irish saints):**\n> - Draw from their witness and biblical virtues they exemplified\n> - Example: St. Brigid → \"Generous Hospitality\" or \"Christ's Light Shining\"\n> - Example: St. Columba → \"Bold Witness\" or \"Monastic Devotion\"\n>\n> **For Ordinary Days:**\n> - Select universally relevant biblical themes\n> - God's Faithfulness, Trusting Providence, Abiding in Christ, Bearing Good Fruit\n> - Consider day of week: Monday (New Beginnings), Friday (Sacrificial Love), Sunday (Sabbath Rest)\n>\n> **Quality Standards**:\n> - Themes must be biblically defensible and theologically rich\n> - Avoid shallow \"prosperity gospel\" or purely motivational themes\n> - Balance comfort with challenge, grace with truth\n> - Use language accessible to ordinary believers yet honoring theological depth\n>\n> **Output**: Return ONLY the theme name (2-5 words, may include brief Scripture reference if highly relevant)\n>\n> **Examples**:\n> - Input: \"Feast of the Annunciation\" → Output: \"Mary's Yes to God\"\n> - Input: \"Good Friday\" → Output: \"The Cross: Our Redemption\"\n> - Input: \"4th Sunday of Ordinary Time\" → Output: \"Growing in Godliness\"\n> - Input: \"St. Brigid's Day\" → Output: \"Light of Hospitality\""
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 3,
+            "position": [
+                2080,
+                620
+            ],
+            "id": "3aa636ca-0597-460a-85e9-66e407137816",
+            "name": "🎯 Select Spiritual Theme"
+        },
+        {
+            "parameters": {
+                "modelName": "models/gemini-robotics-er-1.5-preview",
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                2080,
+                880
+            ],
+            "id": "a522b434-0fa7-4396-83c9-0bb3bfae8c4e",
+            "name": "Gemini Model (Theme Selector)",
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "kxcftpSczlNkjgw6",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "mode": "insert",
+                "qdrantCollection": {
+                    "__rl": true,
+                    "value": "=my-collection",
+                    "mode": "id"
+                },
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+            "typeVersion": 1.3,
+            "position": [
+                780,
+                0
+            ],
+            "id": "de4e9ace-2cee-4b4d-9b27-89cd28e3fbb4",
+            "name": "💾 Store Bible in Vector DB",
+            "credentials": {
+                "qdrantApi": {
+                    "id": "D9IhncbU5UKpL0h6",
+                    "name": "QdrantApi account"
+                }
+            }
+        },
+        {
+            "parameters": {},
+            "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                656,
+                192
+            ],
+            "id": "5c498ee7-bfc5-4779-aeed-1b479a5fa43c",
+            "name": "Embeddings Google Gemini2",
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "kxcftpSczlNkjgw6",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+            "typeVersion": 1.1,
+            "position": [
+                832,
+                208
+            ],
+            "id": "9e59569a-087c-4ecd-bd00-1e9f94ccbbb4",
+            "name": "Default Data Loader1"
+        },
+        {
+            "parameters": {
+                "mode": "retrieve-as-tool",
+                "toolDescription": "Retrieval of quotes!",
+                "qdrantCollection": {
+                    "__rl": true,
+                    "value": "my-collection",
+                    "mode": "id"
+                },
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+            "typeVersion": 1.3,
+            "position": [
+                2440,
+                1300
+            ],
+            "id": "2a5f4987-b027-493f-8697-20d7c87ab143",
+            "name": "📖 Search Bible Verses",
+            "credentials": {
+                "qdrantApi": {
+                    "id": "D9IhncbU5UKpL0h6",
+                    "name": "QdrantApi account"
+                }
+            }
+        },
+        {
+            "parameters": {},
+            "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                2440,
+                1480
+            ],
+            "id": "0342bdbe-f162-46c8-bda2-ab7e791c03d9",
+            "name": "Embeddings (Retrieval)",
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "kxcftpSczlNkjgw6",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "chatId": "1745352599",
+                "text": "={{ $json.output }}",
+                "additionalFields": {
+                    "appendAttribution": false
+                }
+            },
+            "id": "f52ecc4b-4c15-49f1-ba8a-d0b7e7b60720",
+            "name": "📤 Send Text Post to User",
+            "type": "n8n-nodes-base.telegram",
+            "position": [
+                2760,
+                1000
+            ],
+            "webhookId": "ca4806ac-202c-4709-92f9-6484397c17c4",
+            "typeVersion": 1.2,
+            "credentials": {
+                "telegramApi": {
+                    "id": "jaamq7OjzrdwZAeT",
+                    "name": "Telegram account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "updates": [
+                    "message"
+                ],
+                "additionalFields": {}
+            },
+            "id": "71b64b8d-0ae4-4660-bc00-66651fa7960b",
+            "name": "📱 Telegram User Input",
+            "type": "n8n-nodes-base.telegramTrigger",
+            "position": [
+                1140,
+                700
+            ],
+            "webhookId": "ff17baeb-3182-41c4-b60a-e6159b02023b",
+            "typeVersion": 1.2,
+            "credentials": {
+                "telegramApi": {
+                    "id": "jaamq7OjzrdwZAeT",
+                    "name": "Telegram account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "mode": "retrieve-as-tool",
+                "toolDescription": "Retrieval of Russian Bible quotes",
+                "qdrantCollection": {
+                    "__rl": true,
+                    "value": "russian-bible-collection",
+                    "mode": "id"
+                },
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+            "typeVersion": 1.3,
+            "position": [
+                2940,
+                1300
+            ],
+            "id": "rus-bible-006",
+            "name": "Russian Bible Search",
+            "credentials": {
+                "qdrantApi": {
+                    "id": "D9IhncbU5UKpL0h6",
+                    "name": "QdrantApi account"
+                }
+            }
+        },
+        {
+            "parameters": {},
+            "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                2940,
+                1480
+            ],
+            "id": "rus-bible-007",
+            "name": "Russian Embeddings Retrieval",
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "kxcftpSczlNkjgw6",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "promptType": "define",
+                "text": "={{ 'English Post Content:\\n' + $('✍️ Create Bible Quotation Post').item.json.output + '\\n\\nPlease create a Russian version of this post, keeping the Russian Bible quote from the Russian Bible exactly as found.' }}",
+                "options": {
+                    "systemMessage": "You are a Russian-language Christian content translator. Your task is to translate Facebook posts about Bible verses into Russian.\\n\\nCRITICAL RULES:\\n1. Find the EXACT Russian Bible quote from the Russian Synodal Bible - DO NOT translate the English verse\\n2. Translate ALL other content (reflection, commentary, questions) into natural Russian\\n3. Keep emojis and formatting similar to the original\\n4. Preserve the reverent, spiritual tone\\n5. Use proper Russian Orthodox/Christian terminology\\n\\nThe Bible quote MUST come from the actual Russian Bible (Synodal translation), not a translation of the English version."
+                }
+            },
+            "type": "@n8n/n8n-nodes-langchain.agent",
+            "typeVersion": 3,
+            "position": [
+                3100,
+                800
+            ],
+            "id": "rus-bible-008",
+            "name": "Russian Post Creator"
+        },
+        {
+            "parameters": {
+                "modelName": "models/gemini-robotics-er-1.5-preview",
+                "options": {}
+            },
+            "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+            "typeVersion": 1,
+            "position": [
+                3100,
+                1080
+            ],
+            "id": "rus-bible-009",
+            "name": "Gemini Model (Russian)",
+            "credentials": {
+                "googlePalmApi": {
+                    "id": "kxcftpSczlNkjgw6",
+                    "name": "Google Gemini(PaLM) Api account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "chatId": "1745352599",
+                "text": "={{ $json.output }}",
+                "additionalFields": {
+                    "appendAttribution": false
+                }
+            },
+            "id": "rus-bible-010",
+            "name": "Send Russian Post",
+            "type": "n8n-nodes-base.telegram",
+            "position": [
+                3420,
+                1000
+            ],
+            "webhookId": "ca4806ac-202c-4709-92f9-6484397c17c4",
+            "typeVersion": 1.2,
+            "credentials": {
+                "telegramApi": {
+                    "id": "jaamq7OjzrdwZAeT",
+                    "name": "Telegram account"
+                }
+            }
+        }
+    ],
+    "pinData": {},
+    "connections": {
+        "When clicking ‘Execute workflow’": {
+            "main": [
+                [
+                    {
+                        "node": "HTTP Request - Download Bible PDF",
+                        "type": "main",
+                        "index": 0
                     },
-    "active":  false,
-    "settings":  {
-                     "executionOrder":  "v1",
-                     "availableInMCP":  false
-                 },
-    "versionId":  "17b8fc9e-3ae0-4e73-adfc-ab7e63e2f6cd",
-    "meta":  {
-                 "templateCredsSetupCompleted":  true,
-                 "instanceId":  "fdfb9c02aed14793f15086da2f16c8508814f2e5fdc6e4ddf593c648b0ca6b9d"
-             },
-    "id":  "419r1AgqL43HvklQ",
-    "tags":  [
-
-             ]
+                    {
+                        "node": "Russian Bible OT Download",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Russian Bible NT Download",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Extract Bible Text from PDF": {
+            "main": [
+                [
+                    {
+                        "node": "💾 Store Bible in Vector DB",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "📱 User Request (Telegram/Chat)": {
+            "main": [
+                [
+                    {
+                        "node": "⚙️ Set Image Parameters",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Gemini Model (Post Creator)": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "✍️ Create Bible Quotation Post",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "⚙️ Set Image Parameters": {
+            "main": [
+                [
+                    {
+                        "node": "📅 Get Irish Date/Time",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "📅 Get Irish Date/Time": {
+            "main": [
+                [
+                    {
+                        "node": "🗓️ Irish Calendar Context",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "🗓️ Irish Calendar Context": {
+            "main": [
+                [
+                    {
+                        "node": "🎯 Select Spiritual Theme",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Gemini Model (Calendar)": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "🗓️ Irish Calendar Context",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Parse Image Prompt JSON": {
+            "main": [
+                [
+                    {
+                        "node": "Build Image API Request",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Build Image API Request": {
+            "main": [
+                [
+                    {
+                        "node": "Set Image Filename",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "🖼️ Generate Biblical Image": {
+            "main": [
+                [
+                    {
+                        "node": "📤 Send Image to User",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Set Image Filename": {
+            "main": [
+                [
+                    {
+                        "node": "🖼️ Generate Biblical Image",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "🎨 Generate Image Prompt": {
+            "main": [
+                [
+                    {
+                        "node": "Parse Image Prompt JSON",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Gemini Model (Image Prompt)": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "🎨 Generate Image Prompt",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "✍️ Create Bible Quotation Post": {
+            "main": [
+                [
+                    {
+                        "node": "🎨 Generate Image Prompt",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "📤 Send Text Post to User",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Russian Post Creator",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "🎯 Select Spiritual Theme": {
+            "main": [
+                [
+                    {
+                        "node": "✍️ Create Bible Quotation Post",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Gemini Model (Theme Selector)": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "🎯 Select Spiritual Theme",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Embeddings Google Gemini2": {
+            "ai_embedding": [
+                [
+                    {
+                        "node": "💾 Store Bible in Vector DB",
+                        "type": "ai_embedding",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Default Data Loader1": {
+            "ai_document": [
+                [
+                    {
+                        "node": "💾 Store Bible in Vector DB",
+                        "type": "ai_document",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "📖 Search Bible Verses": {
+            "ai_tool": [
+                [
+                    {
+                        "node": "✍️ Create Bible Quotation Post",
+                        "type": "ai_tool",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Embeddings (Retrieval)": {
+            "ai_embedding": [
+                [
+                    {
+                        "node": "📖 Search Bible Verses",
+                        "type": "ai_embedding",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "📱 Telegram User Input": {
+            "main": [
+                [
+                    {
+                        "node": "⚙️ Set Image Parameters",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "📅 Get Irish Date/Time",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Russian Bible OT Download": {
+            "main": [
+                [
+                    {
+                        "node": "Russian Bible OT Extract",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Russian Bible NT Download": {
+            "main": [
+                [
+                    {
+                        "node": "Russian Bible NT Extract",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Russian Bible OT Extract": {
+            "main": [
+                [
+                    {
+                        "node": "Russian Bible Store",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Russian Bible NT Extract": {
+            "main": [
+                [
+                    {
+                        "node": "Russian Bible Store",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Russian Embeddings Storage": {
+            "ai_embedding": [
+                [
+                    {
+                        "node": "Russian Bible Store",
+                        "type": "ai_embedding",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Russian Data Loader": {
+            "ai_document": [
+                [
+                    {
+                        "node": "Russian Bible Store",
+                        "type": "ai_document",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Russian Embeddings Retrieval": {
+            "ai_embedding": [
+                [
+                    {
+                        "node": "Russian Bible Search",
+                        "type": "ai_embedding",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Russian Bible Search": {
+            "ai_tool": [
+                [
+                    {
+                        "node": "Russian Post Creator",
+                        "type": "ai_tool",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Gemini Model (Russian)": {
+            "ai_languageModel": [
+                [
+                    {
+                        "node": "Russian Post Creator",
+                        "type": "ai_languageModel",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Russian Post Creator": {
+            "main": [
+                [
+                    {
+                        "node": "Send Russian Post",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "HTTP Request - Download Bible PDF": {
+            "main": [
+                [
+                    {
+                        "node": "Extract Bible Text from PDF",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "active": false,
+    "settings": {
+        "executionOrder": "v1",
+        "availableInMCP": false
+    },
+    "versionId": "17b8fc9e-3ae0-4e73-adfc-ab7e63e2f6cd",
+    "meta": {
+        "templateCredsSetupCompleted": true,
+        "instanceId": "fdfb9c02aed14793f15086da2f16c8508814f2e5fdc6e4ddf593c648b0ca6b9d"
+    },
+    "id": "419r1AgqL43HvklQ",
+    "tags": []
 }
