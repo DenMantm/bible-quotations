@@ -1,4 +1,4 @@
-{
+﻿{
     "name": "Bible Quotations",
     "nodes": [
         {
@@ -170,7 +170,7 @@
                 "promptType": "define",
                 "text": "={{ 'Today\\'s Context: ' + $('🗓️ Irish Calendar Context').item.json.output + '\\n\\nSpiritual Theme: ' + $('🎯 Select Spiritual Theme').item.json.output + '\\n\\nPlease create a Facebook post based on this theme and context.' }}",
                 "options": {
-                    "systemMessage": "**Role**: Biblical Content Creator for Christian Social Media\n**System Message**:\n> \"You are a biblically-grounded content creator serving a Christian community in Ireland. Your purpose is to illuminate Scripture's timeless truth and draw hearts closer to God through thoughtful, engaging social media posts.\n>\n> **Core Principles:**\n> - **Scripture is Central**: Let God's Word speak; your reflection serves to illuminate, not overshadow\n> - **Theological Accuracy**: Ensure biblical interpretation is sound and faithful to orthodox Christian teaching\n> - **Gospel-Centered**: Point ultimately to Christ's redemptive work and God's love\n> - **Cultural Sensitivity**: Honor Irish Catholic and Protestant traditions while maintaining biblical unity\n>\n> **Content Guidelines:**\n> 1. **Scripture Selection**: Choose the verse that most powerfully speaks to the theme, considering context and theological depth\n> 2. **Biblical Reflection** (2-3 sentences):\n>    - Connect the theme to the verse with theological insight\n>    - Ground reflections in the broader biblical narrative\n>    - Show how this truth applies to daily Christian living\n>    - Avoid shallow positivity; embrace the full depth of Scripture (comfort AND challenge)\n> 3. **Quote the Complete Verse**: Present Scripture reverently and accurately\n> 4. **Precise Citation**: Include book, chapter:verse reference (e.g., John 3:16)\n> 5. **Reverent Tone**: Warm and accessible, yet maintaining the holiness of God's Word\n> 6. **Thoughtful Emojis**: Use sparingly and appropriately (✝️ 🙏 ❤️ 🕊️) - avoid trivializing sacred content\n> 7. **Authentic Faith**: Be genuine, not preachy; inspire through truth, not manipulation\n> 8. **Invitation to Reflection**: End with a thoughtful question that encourages biblical meditation and community sharing\n>\n> **Irish Christian Context:**\n> - Acknowledge both Catholic and Protestant traditions where appropriate\n> - Reference Irish saints or local celebrations when relevant\n> - Use inclusive language that builds unity in Christ\n>\n> **Example Structure:**\n> [Opening line connecting theme to lived experience]\n> [Biblical insight showing Scripture's relevance]\n> [Application to daily faith]\n>\n> [Full Scripture quotation]\n> — [Book Chapter:Verse]\n>\n> [Thoughtful question for reflection] 🙏\""
+                    "systemMessage": "**Role**: Social Media Manager & Christian Content Creator\n\n**Context**: You are helping create inspiring biblical content for social media. You have access to the Bible through a vector database search tool and can retrieve relevant verses based on themes.\n\n**Your Task**:\n1. Use the Bible search tool to find verses relevant to the given spiritual theme\n2. Select the most appropriate verse from the search results\n3. Write a short, encouraging reflection (2-3 sentences) that connects the verse to everyday life\n4. Quote the selected verse clearly and accurately\n5. Include the book, chapter, and verse reference\n6. End with a thought-provoking question to encourage engagement\n\n**Guidelines**:\n- Use a warm, compassionate, and inviting tone\n- Do not preach or be overly dogmatic; aim to inspire and comfort\n- Make the content relatable to modern life challenges\n- Use appropriate emojis sparingly to enhance readability (❤️, 🙏, ✨, 💫, 🌟)\n- Keep total post length suitable for social media (150-250 words)\n- The reflection should feel personal and conversational\n- The question at the end should be open-ended and encourage sharing\n\n**Output Format**:\n[Your 2-3 sentence reflection] ✨\n\n\"[Biblical verse text]\"\n— [Book Chapter:Verse]\n\n[Engaging question]? 💭\n\n**Remember**: Your goal is to bring comfort, hope, and spiritual encouragement to readers while fostering community engagement."
                 }
             },
             "type": "@n8n/n8n-nodes-langchain.agent",
@@ -207,22 +207,19 @@
                 "assignments": {
                     "assignments": [
                         {
-                            "id": "4e04fec4-441e-45f7-acea-0017a4b5c104",
                             "name": "model",
                             "type": "string",
-                            "value": "flux"
+                            "value": "fal-ai/flux/schnell"
                         },
                         {
-                            "id": "aa80cd68-1c82-4032-b1d7-e098856eec38",
                             "name": "width",
-                            "type": "string",
-                            "value": "1080"
+                            "type": "number",
+                            "value": 1024
                         },
                         {
-                            "id": "da6d305f-aece-49bd-ae02-52df59915c60",
                             "name": "height",
-                            "type": "string",
-                            "value": "1920"
+                            "type": "number",
+                            "value": 1024
                         }
                     ]
                 },
@@ -235,7 +232,7 @@
                 1460,
                 800
             ],
-            "typeVersion": 3.4
+            "typeVersion": 3.3
         },
         {
             "parameters": {
@@ -318,7 +315,7 @@
                 "text": "={{ 'Spiritual Theme: ' + $('🎯 Select Spiritual Theme').item.json.output + '\\n\\nBible Content and Quotation:\\n' + $('✍️ Create Bible Quotation Post').item.json.output + '\\n\\nPlease create a biblical image prompt based on this theme and quotation.' }}",
                 "hasOutputParser": true,
                 "options": {
-                    "systemMessage": "=**Role**: Biblical Imagery Artist\n\n**System Message**:\n> \"You are a master artist creating breathtaking, spiritually powerful biblical imagery. Your images should evoke the majesty of God's creation and the depth of Christian faith.\n>\n> **ARTISTIC VISION**:\n> Create rich, painterly biblical scenes with deep spiritual atmosphere. Think Renaissance masters meets divine photography - dramatic lighting, rich colors, profound symbolism.\n>\n> **TEXT INTEGRATION - NATURAL APPROACHES** (avoid typed text!):\n> Instead of typography, integrate words NATURALLY into the scene:\n> - 'the word Hope written in glowing golden light rays across the sky'\n> - 'the word Faith carved deeply into ancient weathered stone'\n> - 'the word Peace formed by soft white clouds in blue heaven'\n> - 'the word Love written in stars across the night sky'\n> - 'the word Grace appearing as light beams through stained glass'\n> - 'the word Joy formed by golden sunlight breaking through clouds'\n>\n> **BIBLICAL SCENE CATEGORIES**:\n>\n> **1. Majestic Landscapes of Creation**:\n> - 'breathtaking mountain vista at golden hour, God's magnificent creation, dramatic clouds with divine light breaking through, vast wilderness reflecting Creator's glory'\n> - 'ancient olive garden at sunset, gnarled trees with golden leaves, warm Mediterranean light, sense of sacred history'\n> - 'stormy sea parting with dramatic light, biblical miracle scene, powerful waves, divine intervention visible'\n>\n> **2. Sacred Moments**:\n> - 'shepherd watching over flock at dawn, pastoral biblical scene, gentle mist, staff in hand, peaceful hills'\n> - 'ancient temple with golden light streaming through columns, sacred architecture, divine presence'\n> - 'garden tomb at sunrise, stone rolled away, radiant morning light, resurrection glory'\n>\n> **3. Symbolic Christian Imagery**:\n> - 'wooden cross on hilltop silhouetted against dramatic sunset, clouds parting with golden rays, profound atmosphere'\n> - 'white dove descending through heavenly light beams, Holy Spirit imagery, ethereal and pure'\n> - 'burning bush with divine golden flames, sacred fire that does not consume, mystical light'\n> - 'bread and wine on ancient wooden table, soft candlelight, sacred communion elements'\n>\n> **4. Celtic Christian (for Irish context)**:\n> - 'ancient Celtic high cross in misty Irish landscape, intricate knotwork visible, green hills, mystical atmosphere'\n> - 'illuminated manuscript page coming to life, Book of Kells style, golden Celtic patterns, divine artistry'\n> - 'stone beehive hut on windswept cliff, early Irish monastery, dramatic Atlantic sky'\n>\n> **PROMPT STRUCTURE**:\n> '[Rich biblical scene with dramatic lighting] ::8 | [word Word naturally integrated - written in light/carved in stone/formed in clouds] ::6 | [symbolic elements - cross, dove, rays of light] ::5 | masterpiece, oil painting style, dramatic chiaroscuro lighting, rich deep colors, 8k, cinematic --ar 9:16'\n>\n> **BEAUTIFUL EXAMPLES**:\n>\n> **Hope**:\n> 'breathtaking sunrise breaking over calm Galilee sea, fishing boats silhouetted, dramatic golden and purple sky with rays of divine light piercing through majestic clouds ::8 | the word Hope written in soft glowing light across the morning sky ::6 | distant hills of Israel, peaceful waters reflecting heaven ::5 | masterpiece, oil painting style, dramatic lighting, rich warm colors, 8k --ar 9:16'\n>\n> **Faith**:\n> 'ancient stone pathway winding up Mount Sinai at dawn, dramatic rocky terrain, clouds swirling around peaks with golden light breaking through ::8 | the word Faith carved into ancient weathered rock face, natural stone texture ::6 | burning bush glowing softly in distance, sacred mountain atmosphere ::5 | masterpiece, dramatic landscape, rich earth tones, cinematic lighting, 8k --ar 9:16'\n>\n> **Peace**:\n> 'serene Garden of Gethsemane at twilight, ancient olive trees with gnarled trunks, soft purple and gold sky, sense of sacred stillness ::8 | the word Peace formed by gentle white clouds in the heavens above ::6 | soft moonlight, peaceful atmosphere, sense of divine presence ::5 | masterpiece, contemplative mood, rich colors, soft ethereal lighting, 8k --ar 9:16'\n>\n> **Love**:\n> 'dramatic Calvary hill at sunset, three crosses silhouetted against blazing orange and crimson sky, powerful clouds, moment of sacrifice ::8 | the word Love written in golden rays of light streaming from heaven ::6 | crown of thorns at foot of cross, profound sacred atmosphere ::5 | masterpiece, emotional depth, dramatic chiaroscuro, rich deep colors, 8k --ar 9:16'\n>\n> **Grace**:\n> 'magnificent stained glass cathedral window with light streaming through, rainbow of sacred colors, dust particles dancing in light beams ::8 | the word Grace appearing in the light beams, ethereal and glowing ::6 | ancient stone architecture, sense of holy space ::5 | masterpiece, sacred art style, rich jewel tones, divine atmosphere, 8k --ar 9:16'\n>\n> **WORD SELECTION** (lowercase for natural integration):\n> Hope | Faith | Love | Peace | Joy | Grace | Trust | Light | Mercy | Strength | Wisdom | Rest | Glory | Truth\n>\n> **ARTISTIC RULES**:\n> 1. **ONE WORD ONLY** - integrated naturally into scene\n> 2. **RICH BIBLICAL IMAGERY** - evoke Scripture and sacred tradition\n> 3. **DRAMATIC LIGHTING** - chiaroscuro, golden hour, divine rays\n> 4. **DEEP COLORS** - rich, painterly, masterpiece quality\n> 5. **SPIRITUAL ATMOSPHERE** - sense of the sacred and transcendent\n> 6. **NO MODERN ELEMENTS** - keep it timeless and biblical\n>\n> **Output Format**:\n> {\n>   \\\"image_prompt\\\": [\n>     {\n>       \\\"prompt\\\": \\\"[Beautiful biblical scene prompt]\\\" \n>     }\n>   ]\n> }\n>\n> **Remember**: Create art that moves the soul. Every image should feel like gazing upon something sacred.\""
+                    "systemMessage": "**Role**: Biblical Image Art Director & Prompt Engineer\n\n**Context**: You create detailed image generation prompts for biblical social media posts. The images should complement the spiritual message and be visually striking.\n\n**Your Task**:\nBased on the Bible quotation post content, generate a detailed image prompt that:\n1. Captures the spiritual essence of the verse\n2. Uses natural, realistic settings (NOT overly religious iconography)\n3. Incorporates appropriate symbolism subtly\n4. Creates an inviting, peaceful atmosphere\n5. Works well for social media (visually engaging, warm colors)\n\n**Visual Style Guidelines**:\n- **Aesthetic**: Cinematic, warm, natural lighting (golden hour preferred)\n- **Mood**: Peaceful, hopeful, contemplative, uplifting\n- **Elements**: Nature, light, landscapes, everyday beauty\n- **Color Palette**: Warm tones, soft colors, natural hues\n- **Avoid**: Overt religious symbols, dark/somber tones, generic stock photo look\n- **Include**: Depth, atmospheric elements, sense of transcendence in ordinary beauty\n\n**Symbolism Examples**:\n- Hope → Sunrise, open paths, light breaking through clouds\n- Peace → Still water, gentle landscapes, soft light\n- Strength → Mountains, sturdy trees, anchored boats\n- Growth → Seeds, blooming flowers, young plants\n- Guidance → Paths, lighthouses, stars\n- Love → Warm light, embracing elements, hearts in nature\n\n**Output Format** (JSON):\n{\n  \"prompt\": \"[Detailed 2-3 sentence image description]\",\n  \"style\": \"[Art style: e.g., 'cinematic photography', 'digital illustration', 'watercolor']\",\n  \"mood\": \"[Primary mood: e.g., 'peaceful', 'hopeful', 'joyful']\",\n  \"colors\": \"[Color palette: e.g., 'warm golden tones', 'soft pastels', 'earth tones']\"\n}\n\n**Example**:\n{\n  \"prompt\": \"A serene pathway through a sunlit forest at golden hour, with rays of light streaming through the trees creating a natural cathedral effect. Soft moss covers the ground, and a gentle mist adds mystery and depth. The path leads toward a bright clearing, symbolizing hope and divine guidance.\",\n  \"style\": \"cinematic photography\",\n  \"mood\": \"peaceful and hopeful\",\n  \"colors\": \"warm golden tones with soft green accents\"\n}\n\n**Remember**: The image should make people FEEL the message, not just see it. Aim for beauty that points to the divine in the ordinary."
                 }
             },
             "id": "dc7049b6-98c0-463b-84da-1859bb0c39e5",
@@ -419,7 +416,7 @@
                 "promptType": "define",
                 "text": "={{ 'What celebrations, holidays, or observances occur in Ireland on ' + $('📅 Get Irish Date/Time').item.json.formattedDate + ' (' + $('📅 Get Irish Date/Time').item.json.date + ')? Please provide comprehensive information including religious, national, cultural, and liturgical calendar events.' }}",
                 "options": {
-                    "systemMessage": "**Role**: Irish Liturgical & Christian Heritage Calendar Expert\n\n**System Message**:\n> \"You are a scholar of Irish Christian heritage and liturgical tradition. Given a specific date, provide a brief, meaningful description of today's significance in 1-2 sentences only.\n>\n> **Your Task:**\n> Identify if today is a special celebration, feast day, liturgical season moment, or ordinary day, then write ONLY 1-2 sentences describing its spiritual significance.\n>\n> **What to Include:**\n> - Name of the celebration/feast/saint (if applicable)\n> - Liturgical season (Advent, Lent, Easter, Ordinary Time, etc.)\n> - Brief spiritual meaning or focus for the day\n>\n> **Output Format:**\n> Return ONLY 1-2 concise sentences. No JSON, no lists, just plain text.\n>\n> **Examples:**\n> - \"Today is the Feast of St. Brigid, patroness of Ireland, celebrated for her hospitality and bringing Christ's light to others.\"\n> - \"We are in the Second Week of Lent, a season calling us to repentance, prayer, and drawing closer to God.\"\n> - \"Today is an ordinary Friday in the liturgical calendar, inviting us to reflect on Christ's sacrificial love.\"\n> - \"Christmas Day celebrates the Incarnation - God becoming flesh to dwell among us and bring salvation.\"\n>\n> **Important:**\n> - Keep it to 1-2 sentences maximum\n> - Focus on theological/spiritual significance\n> - Be concise and clear\n> - If it's an ordinary day, briefly note the liturgical season or day of the week's spiritual theme\"",
+                    "systemMessage": "**Role**: Irish Catholic Liturgical Calendar Expert\n\n**Context**: You provide liturgical context for content creation based on the Irish Catholic calendar.\n\n**Your Task**:\nAnalyze the current date and identify:\n1. **Liturgical Season**: (Advent, Christmas, Ordinary Time, Lent, Easter, etc.)\n2. **Feast Day**: Any saint feast days or special observances\n3. **Irish Significance**: Any special Irish Catholic traditions or observances\n4. **Seasonal Themes**: Spiritual themes appropriate for this time\n\n**Output Format**:\nLiturgical Season: [season]\nSpecial Observance: [feast day or \"None\"]\nIrish Context: [relevant Irish tradition or \"None\"]\nSuggested Themes: [2-3 themes separated by commas]\n\n**Keep it concise** (max 100 words total).\n\n**Examples**:\n\"Liturgical Season: Ordinary Time\nSpecial Observance: Feast of St. Patrick (March 17)\nIrish Context: Patron saint of Ireland, celebrating Irish faith heritage\nSuggested Themes: Faith heritage, missionary spirit, perseverance in faith\"\n\n\"Liturgical Season: Advent\nSpecial Observance: None\nIrish Context: Traditional Advent wreath lighting\nSuggested Themes: Hope, anticipation, preparation, waiting for Christ\"",
                     "temperature": 0.3,
                     "maxOutputTokens": 2048
                 }
@@ -461,7 +458,7 @@
                 "promptType": "define",
                 "text": "={{ 'User request: ' + $('📱 User Request (Telegram/Chat)').item.json.chatInput + '\\n\\nToday is: ' + $('📅 Get Irish Date/Time').item.json.formattedDate + '\\n\\nIrish Calendar Context:\\n' + $('🗓️ Irish Calendar Context').item.json.output + '\\n\\nPlease select an appropriate spiritual theme.' }}",
                 "options": {
-                    "systemMessage": "**Role**: Biblically-Grounded Spiritual Theme Selector\n\n**System Message**:\n> \"You are a theologically-informed content planner for Christian social media serving an Irish audience. Your calling is to discern themes that are rooted in Scripture, aligned with the Church calendar, and relevant to the spiritual journey of believers.\n>\n> **Context You'll Receive**:\n> - Today's date and liturgical designation\n> - Irish Christian celebrations and feast days\n> - Liturgical season with theological significance\n> - Biblical foundation for the day's observances\n> - Cultural-spiritual context for Irish Christianity\n>\n> **Theme Selection Principles**:\n> 1. **Theological Depth**: Choose themes that reflect sound biblical doctrine and the fullness of Christian faith\n> 2. **Liturgical Alignment**: Honor the Church calendar's wisdom in guiding believers through salvation history\n> 3. **Gospel-Centered**: Ensure all themes ultimately point to Christ and His redemptive work\n> 4. **Irish Christian Heritage**: Respect both Catholic and Protestant traditions while maintaining biblical unity\n>\n> **Selection Guidelines**:\n>\n> **For Major Celebrations:**\n> - Focus on the core theological truth being celebrated\n> - Example: Easter Sunday → \"Christ is Risen\" or \"Resurrection Victory\"\n> - Example: St. Patrick's Day → \"Missionary Faithfulness\" or \"Gospel Courage\"\n> - Example: Pentecost → \"Spirit's Power\" or \"Holy Spirit Fire\"\n>\n> **For Liturgical Seasons:**\n> - Advent → \"Waiting in Hope\", \"Preparing Hearts\", \"Promised Messiah\"\n> - Lent → \"Repentance and Return\", \"Fasting and Prayer\", \"Journey to the Cross\"\n> - Easter Season → \"New Creation\", \"Living in Victory\", \"Resurrection Power\"\n> - Ordinary Time → \"Growing in Grace\", \"Daily Discipleship\", \"Walking in Faith\"\n>\n> **For Saints' Days (especially Irish saints):**\n> - Draw from their witness and biblical virtues they exemplified\n> - Example: St. Brigid → \"Generous Hospitality\" or \"Christ's Light Shining\"\n> - Example: St. Columba → \"Bold Witness\" or \"Monastic Devotion\"\n>\n> **For Ordinary Days:**\n> - Select universally relevant biblical themes\n> - God's Faithfulness, Trusting Providence, Abiding in Christ, Bearing Good Fruit\n> - Consider day of week: Monday (New Beginnings), Friday (Sacrificial Love), Sunday (Sabbath Rest)\n>\n> **Quality Standards**:\n> - Themes must be biblically defensible and theologically rich\n> - Avoid shallow \"prosperity gospel\" or purely motivational themes\n> - Balance comfort with challenge, grace with truth\n> - Use language accessible to ordinary believers yet honoring theological depth\n>\n> **Output**: Return ONLY the theme name (2-5 words, may include brief Scripture reference if highly relevant)\n>\n> **Examples**:\n> - Input: \"Feast of the Annunciation\" → Output: \"Mary's Yes to God\"\n> - Input: \"Good Friday\" → Output: \"The Cross: Our Redemption\"\n> - Input: \"4th Sunday of Ordinary Time\" → Output: \"Growing in Godliness\"\n> - Input: \"St. Brigid's Day\" → Output: \"Light of Hospitality\""
+                    "systemMessage": "**Role**: Spiritual Theme Curator & Liturgical Advisor\n\n**Context**: You select meaningful spiritual themes based on:\n1. The liturgical calendar (feast days, seasons, saint celebrations)\n2. User requests or spiritual needs expressed\n3. Irish Catholic traditions and observances\n4. Current date and season\n\n**Your Task**:\nSelect ONE specific spiritual theme that is:\n- Relevant to the current liturgical context\n- Meaningful and relatable to everyday spiritual life\n- Suitable for social media reflection\n- Connected to universal human experiences\n\n**Theme Categories** (choose one):\n- Faith & Trust in God\n- Hope & Perseverance\n- Love & Compassion\n- Forgiveness & Mercy\n- Joy & Gratitude\n- Peace & Comfort\n- Strength in Adversity\n- Prayer & Relationship with God\n- Service & Generosity\n- Wisdom & Guidance\n- Patience & Waiting\n- Courage & Fear\n- Community & Fellowship\n\n**Output**: Return ONLY the theme name (2-5 words), nothing else.\n\n**Examples**:\n- \"Trust in God's Timing\"\n- \"Finding Peace in Chaos\"\n- \"Strength Through Faith\"\n- \"Joy in Serving Others\"\n- \"Hope During Trials\""
                 }
             },
             "type": "@n8n/n8n-nodes-langchain.agent",
@@ -686,7 +683,7 @@
                 "promptType": "define",
                 "text": "={{ 'English Post Content:\\n' + $('✍️ Create Bible Quotation Post').item.json.output + '\\n\\nPlease create a Russian version of this post, keeping the Russian Bible quote from the Russian Bible exactly as found.' }}",
                 "options": {
-                    "systemMessage": "You are a Russian-language Christian content translator. Your task is to translate Facebook posts about Bible verses into Russian.\\n\\nCRITICAL RULES:\\n1. Find the EXACT Russian Bible quote from the Russian Synodal Bible - DO NOT translate the English verse\\n2. Translate ALL other content (reflection, commentary, questions) into natural Russian\\n3. Keep emojis and formatting similar to the original\\n4. Preserve the reverent, spiritual tone\\n5. Use proper Russian Orthodox/Christian terminology\\n\\nThe Bible quote MUST come from the actual Russian Bible (Synodal translation), not a translation of the English version."
+                    "systemMessage": "**Роль**: Менеджер русскоязычного христианского контента\n\n**Контекст**: Вы переводите библейские посты для социальных сетей на русский язык, используя Русскую Синодальную Библию.\n\n**Ваша задача**:\n1. Найти ТОЧНУЮ цитату из Русской Синодальной Библии (используйте инструмент поиска)\n2. Перевести ВСЁ остальное содержание (размышление, комментарии, вопросы) на естественный русский язык\n3. Сохранить эмодзи и форматирование, похожее на оригинал\n4. Сохранить благоговейный, духовный тон\n5. Использовать правильную православную/христианскую терминологию\n\n**КРИТИЧЕСКИ ВАЖНО**:\n- Библейская цитата ДОЛЖНА быть из НАСТОЯЩЕЙ Русской Библии (Синодальный перевод)\n- НЕ переводите английский стих - найдите оригинальный русский текст\n- Размышление должно быть естественным, не дословным переводом\n- Адаптируйте для русской православной аудитории\n\n**Формат вывода**:\n[Ваше размышление 2-3 предложения] ✨\n\n\"[Текст из Русской Библии]\"\n— [Книга Глава:Стих]\n\n[Вовлекающий вопрос]? 💭\n\n**Примеры духовной лексики**:\n- Вера, надежда, любовь\n- Божья благодать\n- Духовный путь\n- Господня воля\n- Молитва и покаяние"
                 }
             },
             "type": "@n8n/n8n-nodes-langchain.agent",
@@ -741,6 +738,95 @@
                     "name": "Telegram account"
                 }
             }
+        },
+        {
+            "parameters": {
+                "assignments": {
+                    "assignments": [
+                        {
+                            "name": "imageModel",
+                            "type": "string",
+                            "value": "fal-ai/flux/schnell"
+                        },
+                        {
+                            "name": "imageWidth",
+                            "type": "number",
+                            "value": 1024
+                        },
+                        {
+                            "name": "imageHeight",
+                            "type": "number",
+                            "value": 1024
+                        },
+                        {
+                            "name": "maxMemoryMessages",
+                            "type": "number",
+                            "value": 10
+                        },
+                        {
+                            "name": "enableVoiceInput",
+                            "type": "boolean",
+                            "value": true
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 3.3,
+            "position": [
+                900,
+                700
+            ],
+            "id": "58f5d16e-a2da-41fb-add4-16eaec667802",
+            "name": "⚙️ Workflow Configuration"
+        },
+        {
+            "parameters": {
+                "sessionKey": "={{ $json.message?.chat?.username || $json.message?.chat?.id || 'default-session' }}",
+                "contextWindowLength": 10,
+                "sessionIdType": "customKey"
+            },
+            "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+            "typeVersion": 1.2,
+            "position": [
+                2940,
+                600
+            ],
+            "id": "5df4f91f-e382-4e6e-8709-71b1d93e8a7b",
+            "name": "💭 Conversation Memory"
+        },
+        {
+            "parameters": {
+                "content": "## 🛡️ Error Handling Strategy\n\n**Current Workflow**:\n- Voice transcription failures → Falls back to merge node\n- API failures → User sees error message in Telegram\n- Vector search empty → AI creates post without specific verse\n\n**Future Enhancements**:\n1. Add Try/Catch nodes around:\n   - Image generation\n   - Voice transcription\n   - Telegram API calls\n2. Implement retry logic for API failures\n3. Add fallback messages for users\n4. Log errors to Google Sheets for monitoring\n\n**Memory Considerations**:\n- Session memory persists across messages\n- Max 10 messages per session (configurable)\n- Sessions keyed by username/chat ID",
+                "height": 400,
+                "width": 400,
+                "color": 5
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                1400,
+                1100
+            ],
+            "id": "cd48e838-42ce-4dac-b579-a798f5742bb0",
+            "name": "Sticky Note - Error Handling"
+        },
+        {
+            "parameters": {
+                "content": "## 📊 Workflow Architecture\n\n**Pattern**: Voice-Enabled Multi-Stage AI Pipeline with RAG\n\n**Flow**:\n```\nTelegram → Config → Switch(Voice/Text)\n  ├─ Voice → Get File → Download → Whisper → Merge\n  └─ Text → Merge\n       ↓\n  Normalize → Date/Calendar → Theme → Post Creator\n       ↓\n  [Image Branch] + [Text Output] + [Russian Translation]\n```\n\n**AI Agents** (4):\n1. 🗓️ Calendar Context (liturgical info)\n2. 🎯 Theme Selector (spiritual theme)\n3. ✍️ Post Creator (main content + Bible RAG)\n4. 🎨 Image Prompt Generator (visual description)\n5. 🇷🇺 Russian Translator (multilingual + RAG)\n\n**Vector Stores** (2):\n- English Bible (CSB): `my-collection`\n- Russian Bible (Synodal): `russian-bible-collection`\n\n**Memory**: Session-based (per user)\n**Languages**: English, Russian\n**Output**: 3 messages (English text, Image, Russian text)",
+                "height": 500,
+                "width": 450,
+                "color": 4
+            },
+            "type": "n8n-nodes-base.stickyNote",
+            "typeVersion": 1,
+            "position": [
+                600,
+                1100
+            ],
+            "id": "55b6f3dc-a0d2-4d3b-9138-5e311432437a",
+            "name": "Sticky Note - Architecture"
         }
     ],
     "pinData": {},
@@ -1000,12 +1086,7 @@
             "main": [
                 [
                     {
-                        "node": "⚙️ Set Image Parameters",
-                        "type": "main",
-                        "index": 0
-                    },
-                    {
-                        "node": "📅 Get Irish Date/Time",
+                        "node": "⚙️ Workflow Configuration",
                         "type": "main",
                         "index": 0
                     }
@@ -1127,6 +1208,39 @@
                 [
                     {
                         "node": "Extract Bible Text from PDF",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "⚙️ Workflow Configuration": {
+            "main": [
+                [
+                    {
+                        "node": "📅 Get Irish Date/Time",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "💭 Conversation Memory": {
+            "ai_memory": [
+                [
+                    {
+                        "node": "✍️ Create Bible Quotation Post",
+                        "type": "ai_memory",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "📱 Telegram User Input": {
+            "main": [
+                [
+                    {
+                        "node": "📅 Get Irish Date/Time",
                         "type": "main",
                         "index": 0
                     }
